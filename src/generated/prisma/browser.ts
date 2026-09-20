@@ -57,3 +57,13 @@ export type CatalogConfig = Prisma.CatalogConfigModel
  * 
  */
 export type AdminUser = Prisma.AdminUserModel
+/**
+ * Model AdminSession
+ * 
+ */
+export type AdminSession = Prisma.AdminSessionModel
+/**
+ * Model LoginThrottle
+ * 
+ */
+export type LoginThrottle = Prisma.LoginThrottleModel

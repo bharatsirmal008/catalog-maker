@@ -75,7 +75,7 @@ All credentials are server-only and have no `NEXT_PUBLIC_` prefix.
 | `SHOPIFY_API_VERSION` | Explicit supported Admin API version |
 | `WOOCOMMERCE_STORE_URL` | HTTPS WordPress/WooCommerce base URL |
 | `WOOCOMMERCE_CONSUMER_KEY` / `WOOCOMMERCE_CONSUMER_SECRET` | Read-only REST API credentials |
-| `AUTH_SECRET` | Future server-side authentication secret |
+| `ADMIN_SETUP_EMAIL` / `ADMIN_SETUP_PASSWORD` | Temporary CLI-only account provisioning; use the masked PowerShell setup script |
 | `APP_URL` | Canonical application origin |
 
 Production should use a secret manager and least-privilege database user. `SourceConnection` stores only a credential reference, never a secret.
@@ -103,6 +103,10 @@ npm run db:migrate   # create/apply development migrations
 
 Completed: scaffold, styling, modular structure, PostgreSQL, relational schema/migration, server-only Prisma singleton, health endpoint, route foundations, production build, and integration/deployment documentation.
 
-Not implemented: authentication, CRUD, connectors, demo products, synchronization, search/filtering, wishlist, WhatsApp flow, second design, or deployment.
+Day 2 adds authenticated product/category management APIs, public catalog APIs, six categories and 16 local demo products. See [Day 2](docs/day-02.md) for routes, setup and verified tests.
+
+To provision an administrator: `pwsh -File scripts/create-admin.ps1`. To seed local demo records, set `ALLOW_DEMO_SEED=true` and run `npm run db:seed`. Use Node 24 LTS (`.nvmrc`).
+
+Not implemented yet: external connectors, synchronization, second design or deployment.
 
 See [Day 1 report](docs/day-01.md) and [integration prerequisites](docs/integration-prerequisites.md).
