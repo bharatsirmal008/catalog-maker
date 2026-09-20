@@ -95,8 +95,10 @@ npm run db:migrate   # create/apply development migrations
 
 ## Routes
 
-- `GET /` — public catalog placeholder
-- `GET /admin` — restricted placeholder without management controls
+- `GET /` — searchable, filtered, paginated customer catalog
+- `GET /categories/[slug]` — category collection
+- `GET /products/[id]` — details, variants and related products
+- `GET /admin` — authenticated administrator API workspace
 - `GET /api/health` — executes `SELECT 1`; returns 200 when connected or 503 without leaking credentials/stack traces
 
 ## Current status
@@ -104,6 +106,8 @@ npm run db:migrate   # create/apply development migrations
 Completed: scaffold, styling, modular structure, PostgreSQL, relational schema/migration, server-only Prisma singleton, health endpoint, route foundations, production build, and integration/deployment documentation.
 
 Day 2 adds authenticated product/category management APIs, public catalog APIs, six categories and 16 local demo products. See [Day 2](docs/day-02.md) for routes, setup and verified tests.
+
+Day 3 adds the responsive customer catalog. See [Day 3](docs/day-03.md) for architecture and actual verification.
 
 To provision an administrator: `pwsh -File scripts/create-admin.ps1`. To seed local demo records, set `ALLOW_DEMO_SEED=true` and run `npm run db:seed`. Use Node 24 LTS (`.nvmrc`).
 
