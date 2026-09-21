@@ -40,7 +40,7 @@ export async function listProducts(query: ProductQuery, admin = false) {
   };
   const [total, rows] = await prisma.$transaction([
     prisma.product.count({ where }),
-    prisma.product.findMany({ where, select: { ...cardSelect, ...(admin ? { isVisible: true, sourceConnectionId: true, sourceProductId: true } : {}) }, skip: (query.page - 1) * query.limit, take: query.limit, orderBy: sorts[query.sort] }),
+    prisma.product.findMany({ where, select: { ...cardSelect, ...(admin ? { isVisible: true, isFeatured: true, displayOrder: true, sourceVisible: true, sourceConnectionId: true, sourceProductId: true, sourceConnection: { select: { provider: true } } } : {}) }, skip: (query.page - 1) * query.limit, take: query.limit, orderBy: sorts[query.sort] }),
   ], { isolationLevel: "RepeatableRead" });
   return { data: rows.map(card), pagination: { page: query.page, limit: query.limit, total, totalPages: Math.ceil(total / query.limit) } };
 }

@@ -37,6 +37,10 @@ export class WooClient {
         const response = await Promise.race([this.transport(url, `Basic ${Buffer.from(`${this.config.key}:${this.config.secret}`).toString("base64")}`, controller.signal), new Promise<never>((_, reject) => { timer = setTimeout(() => { controller.abort(); reject(new IntegrationError("TIMEOUT", true)); }, Math.min(this.timeoutMs, this.deadline - Date.now())); })]);
         if (response.status === 401) throw new IntegrationError("AUTHENTICATION");
         if (response.status === 403) throw new IntegrationError("PERMISSION");
+        if (response.status === 404 && /^products\/\d+$/.test(path)) {
+          let code = ""; try { code = JSON.parse(response.body).code; } catch { /* Not a verified WooCommerce absence. */ }
+          if (code === "woocommerce_rest_product_invalid_id") throw new IntegrationError("NOT_FOUND");
+        }
         if (response.status === 429 || response.status >= 500) {
           const retry = response.headers.get("retry-after");
           if (retry) wait = /^\d+$/.test(retry) ? Number(retry) * 1000 : Math.max(0, Date.parse(retry) - Date.now());

@@ -10,6 +10,7 @@ import { listProducts, productDetail } from "../../src/lib/catalog/product.servi
 import { productQuery } from "../../src/lib/validations/catalog";
 import { mapWooProduct } from "../../src/lib/integrations/woocommerce/mapper";
 import { wooFixture, wooCategories } from "../fixtures/woo";
+import { setSourceEnabled } from "../../src/lib/integrations/adapters";
 if (process.env.ALLOW_INTEGRATION_TESTS !== "true") throw new Error("Explicit integration-test opt-in required");
 function fixture(i: number): SourceProduct { return { externalId: `fixture-${i}`, name: `Integration fixture ${i}`, description: "Fixture, not a live import", sku: "SHARED-SKU", price: "1234.56", currency: "INR", sourceVisible: true, availability: "IN_STOCK", sourceUrl: null, updatedAt: "2026-09-01T00:00:00Z", categories: [{ externalId: "category-1", name: "Fixture collection" }], images: [{ externalId: "image-1", url: "https://cdn.shopify.com/s/files/demo.png", alt: null }], variants: [{ externalId: `variant-${i}`, title: "One", sku: null, price: "1234.56", stockQuantity: null, availability: "IN_STOCK", attributes: { Size: "One" } }], metadata: {} }; }
 const records = Array.from({ length: 50 }, (_, i) => fixture(i));
@@ -72,6 +73,16 @@ async function main() {
     assert.equal((await prisma.category.findUniqueOrThrow({ where: { id: wooChild.parentId! } })).sourceCategoryId, "1");
     assert.equal(await prisma.product.count({ where: { sourceConnectionId: sources[1] } }), 1);
     console.log("PASS 50 WooCommerce mapper fixtures, 50 repeat skips, category hierarchy and provider isolation (not live)");
+    const shopifyCheckpoint = (await prisma.sourceConnection.findUniqueOrThrow({ where: { id: sources[0] } })).lastSyncAt;
+    const [wooSync, shopifySync] = await Promise.all([runImport(woo.id, pages(wooRecords), { checkpoint: true }), runImport(sources[1], pages([fixture(0)]), { checkpoint: true })]);
+    assert.equal(wooSync.status, "SUCCEEDED"); assert.equal(shopifySync.status, "SUCCEEDED");
+    const failedWoo = await runImport(woo.id, async function* () { throw new IntegrationError("AUTHENTICATION"); yield []; }, { checkpoint: true });
+    assert.equal(failedWoo.status, "FAILED");
+    assert.equal((await prisma.sourceConnection.findUniqueOrThrow({ where: { id: sources[0] } })).lastSyncAt?.toISOString(), shopifyCheckpoint?.toISOString());
+    await setSourceEnabled(woo.id, false); await assert.rejects(() => runImport(woo.id, pages(wooRecords)), /Enable and verify/);
+    assert.equal(await prisma.product.count({ where: { sourceConnectionId: woo.id, sourceVisible: true } }), 50);
+    await setSourceEnabled(woo.id, true);
+    console.log("PASS concurrent different-provider sync, isolated checkpoint failure and disable/re-enable preservation");
   } finally {
     await prisma.product.deleteMany({ where: { sourceConnectionId: { in: sources } } }); await prisma.category.deleteMany({ where: { sourceConnectionId: { in: sources } } }); await prisma.syncRun.deleteMany({ where: { sourceConnectionId: { in: sources } } }); await prisma.sourceConnection.deleteMany({ where: { id: { in: sources } } }); await prisma.$disconnect();
   }

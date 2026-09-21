@@ -10,10 +10,10 @@ export function SourceManager() {
     fetch("/api/admin/sources", { cache: "no-store", signal: controller.signal }).then(async (response) => { if (!response.ok) throw new Error("Could not load sources. Check your administrator session."); return response.json(); }).then((result) => { setSources(result.data); setStatus(""); }).catch(() => { if (!controller.signal.aborted) setStatus("Could not load source connections. Please refresh."); });
     return () => controller.abort();
   }, []);
-  async function action(path: string, body: unknown) {
+  async function action(path: string, body: unknown, method = "POST") {
     setBusy(true); setStatus("Working… Keep this page open. Completed records are saved independently.");
     try {
-      const response = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }); const result = await response.json();
+      const response = await fetch(path, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }); const result = await response.json();
       if (!response.ok) throw new Error(result.error?.message ?? "Operation failed.");
       setStatus(result.data?.status === "FAILED" ? "Import failed or was incomplete. See run history; existing data is preserved." : "Operation completed."); await refresh();
     } catch (error) { setStatus(error instanceof Error ? error.message : "Operation failed."); }
@@ -28,7 +28,9 @@ export function SourceManager() {
       <button className="button mt-3" disabled={busy || !source.enabled} onClick={() => { if (window.confirm("Import source-owned product data? Local visibility and featured settings will be preserved.")) void action(`/api/admin/sources/${source.id}/import`, { confirm: true }); }}>Import products</button>
       <h4 className="mt-4 font-semibold">Recent runs</h4>{source.syncRuns.length === 0 ? <p>No imports yet.</p> : source.syncRuns.map((run) => <div key={run.id} className="mt-3 border-t pt-2 text-sm"><p>{run.status} · {new Date(run.startedAt).toLocaleString()}</p><p>{run.importedCount} new · {run.updatedCount} updated · {run.skippedCount} unchanged · {run.failedCount} failed</p>{run.errorSummary && <p>{run.errorSummary}</p>}</div>)}
       <p className="mt-3 text-sm">Last successful sync: {source.lastSyncAt ? new Date(source.lastSyncAt).toLocaleString() : "Not synchronized yet"}</p>
-      {source.provider === "SHOPIFY" && <div className="mt-3 flex flex-wrap gap-3">{[false, true].map((full) => <button key={String(full)} className="button button-secondary" disabled={busy || !source.enabled} onClick={() => { if (window.confirm(full ? "Fully reconcile products, including verified source deletions? Existing records and local settings are retained." : "Synchronize recently changed source products?")) void action(`/api/admin/sources/${source.id}/sync`, { confirm: true, full }); }}>{full ? "Full reconciliation" : "Sync changes"}</button>)}</div>}
+      <div className="mt-3 flex flex-wrap gap-3">{[false, true].map((full) => <button key={String(full)} className="button button-secondary" disabled={busy || !source.enabled} onClick={() => { if (window.confirm(full ? "Fully reconcile products, including verified source deletions? Existing records and local settings are retained." : "Synchronize recently changed source products?")) void action(`/api/admin/sources/${source.id}/sync`, { confirm: true, full }); }}>{full ? "Full reconciliation" : "Sync changes"}</button>)}</div>
+      <div className="mt-3 flex flex-wrap gap-3"><button className="button button-secondary" disabled={busy} onClick={() => void action(`/api/admin/sources/${source.id}`, { action: "check" })}>Check connection</button><button className="button button-secondary" disabled={busy} onClick={() => { if (window.confirm(`${source.enabled ? "Disable" : "Enable"} future imports and syncs? Existing product visibility will not change.`)) void action(`/api/admin/sources/${source.id}`, { enabled: !source.enabled }, "PATCH"); }}>{source.enabled ? "Disable source" : "Enable source"}</button></div>
+      <p className="mt-2 text-sm">Last connection check: {source.verifiedAt ? new Date(source.verifiedAt).toLocaleString() : "Never verified"}. A past check does not guarantee current availability.</p>
       <p className="mt-2 text-sm">Use full reconciliation for inventory, collection membership and deletion checks; incremental sync is not a complete change feed.</p>
     </article>)}
     <button className="button button-secondary" disabled={busy} onClick={() => refresh().catch((error) => setStatus(error.message))}>Refresh source status</button>

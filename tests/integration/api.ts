@@ -39,6 +39,8 @@ async function main() {
       assert.equal((await request("/api/admin/sources", "POST", {}, "")).response.status, 401);
       assert.equal((await request(`/api/admin/sources/${randomUUID()}/import`, "POST", {}, "")).response.status, 401);
       assert.equal((await request(`/api/admin/sources/${randomUUID()}/sync`, "POST", {}, "")).response.status, 401);
+      assert.equal((await request(`/api/admin/sources/${randomUUID()}`, "PATCH", { enabled: false }, "")).response.status, 401);
+      assert.equal((await request(`/api/admin/sources/${randomUUID()}`, "POST", { action: "check" }, "")).response.status, 401);
       assert.equal((await request(`/api/admin/sources/${randomUUID()}/runs`, "GET", undefined, "")).response.status, 401);
     });
     await test("invalid credentials rejected; login origin checked", async () => {
@@ -57,6 +59,8 @@ async function main() {
       assert.equal((await request("/api/admin/integrations/shopify/check", "POST", { accessToken: "never-accepted" })).response.status, 400);
       assert.equal((await request(`/api/admin/sources/${randomUUID()}/sync`, "POST", { confirm: true }, sessionCookie, "https://evil.example")).response.status, 403);
       assert.equal((await request(`/api/admin/sources/${randomUUID()}/sync`, "POST", { confirm: true, token: "never-accepted" })).response.status, 400);
+      assert.equal((await request(`/api/admin/sources/${randomUUID()}`, "PATCH", { enabled: false }, sessionCookie, "https://evil.example")).response.status, 403);
+      assert.equal((await request("/api/admin/sources", "POST", { provider: "WOOCOMMERCE", consumerSecret: "never-accepted" })).response.status, 400);
     });
     await test("visible category API and malformed query", async () => {
       const r = await request("/api/categories"); assert.equal(r.response.status, 200); assert(r.result.data.length >= 6);

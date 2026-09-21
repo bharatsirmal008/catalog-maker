@@ -6,6 +6,8 @@ import { WooClient, type WooTransport } from "@/lib/integrations/woocommerce/cli
 import { checkWooConnection, wooProductPages } from "@/lib/integrations/woocommerce/products";
 import { mapWooProduct } from "@/lib/integrations/woocommerce/mapper";
 import { wooFixture, wooCategories, wooVariation } from "../fixtures/woo";
+vi.mock("@/lib/db/prisma", () => ({ prisma: {} }));
+import { wooChangedParams } from "@/lib/integrations/woocommerce/sync";
 const config = { origin: "https://store.test", key: "ck_" + "1".repeat(40), secret: "cs_" + "2".repeat(40) };
 const reply = (body: unknown, status = 200, pages = "1") => ({ status, body: JSON.stringify(body), headers: new Headers({ "x-wp-totalpages": pages }) });
 describe("WooCommerce security and transport", () => {
@@ -23,6 +25,8 @@ describe("WooCommerce security and transport", () => {
   it("verifies currency and authenticated product access", async () => { const client = new WooClient(config, async (url) => reply(url.pathname.includes("settings") ? { id: "woocommerce_currency", value: "INR" } : [{ id: 1 }])); expect((await checkWooConnection(client)).currency).toBe("INR"); });
 });
 describe("WooCommerce pagination and mapping", () => {
+  it("uses a GMT overlap and no initial checkpoint filter", () => { expect(wooChangedParams(null, new Date())).toEqual({}); expect(wooChangedParams(new Date("2026-09-22T10:00:00Z"), new Date("2026-09-22T11:00:00Z"))).toEqual({ modified_after: "2026-09-22T09:55:00.000Z", modified_before: "2026-09-22T11:00:00.000Z", dates_are_gmt: "true" }); });
+  it("requires a WooCommerce product-not-found code, not a generic 404", async () => { await expect(new WooClient(config, async () => reply({ code: "woocommerce_rest_product_invalid_id" }, 404)).get("products/1", z.unknown())).rejects.toMatchObject({ code: "NOT_FOUND" }); await expect(new WooClient(config, async () => reply({}, 404)).get("products/1", z.unknown())).rejects.toMatchObject({ code: "REMOTE" }); });
   it("completes product and nested variation pages", async () => {
     const paths: string[] = [];
     const client = new WooClient(config, async (url) => { paths.push(url.pathname); const page = url.searchParams.get("page"); if (url.pathname.endsWith("categories")) return reply(wooCategories); if (url.pathname.endsWith("variations")) return reply([wooVariation(page === "1" ? 11 : 12)], 200, "2"); return reply([{ ...wooFixture(), type: "variable", variations: [11, 12] }]); });
