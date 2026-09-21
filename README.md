@@ -128,8 +128,13 @@ For the local database/API suite, set `ALLOW_INTEGRATION_TESTS=true` and run
 `npm run test:api` while the application and PostgreSQL are running. This creates
 temporary test records and removes them afterward. Do not target a live store.
 
-To provision an administrator: `pwsh -File scripts/create-admin.ps1`. To seed local demo records, set `ALLOW_DEMO_SEED=true` and run `npm run db:seed`. Use Node 24 LTS (`.nvmrc`).
+To provision an administrator from PowerShell: `.\scripts\create-admin.ps1` (PowerShell 7 is not required). To seed local demo records, set `ALLOW_DEMO_SEED=true` and run `npm run db:seed`. Use Node 24 LTS (`.nvmrc`).
 
-Not implemented yet: external connectors, synchronization, second design or deployment.
+Not implemented yet: live external imports, synchronization, second design or deployment.
+
+Day 5 adds a server-only Shopify GraphQL connector and protected connection check.
+See [Day 5](docs/day-05.md) and [Shopify setup](docs/shopify-setup.md).
+External account/store setup is deferred until the end of Days 5–10 work;
+fixture tests do not represent a live Shopify connection or live imports.
 
 See [Day 1 report](docs/day-01.md) and [integration prerequisites](docs/integration-prerequisites.md).

@@ -34,6 +34,7 @@ async function main() {
         assert.equal(r.response.status, 401);
       }
       assert.equal((await request("/api/admin/products", "GET", undefined, "")).response.status, 401);
+      assert.equal((await request("/api/admin/integrations/shopify/check", "POST", {}, "")).response.status, 401);
     });
     await test("invalid credentials rejected; login origin checked", async () => {
       assert.equal((await request("/api/admin/login", "POST", { email, password: "wrong" }, "")).response.status, 401);
@@ -47,6 +48,8 @@ async function main() {
       sessionCookie = header.split(";")[0];
       sessionCookieName = sessionCookie.split("=")[0];
       assert.equal((await request("/api/admin/session")).result.data.email, email);
+      assert.equal((await request("/api/admin/integrations/shopify/check", "POST", {}, sessionCookie, "https://evil.example")).response.status, 403);
+      assert.equal((await request("/api/admin/integrations/shopify/check", "POST", { accessToken: "never-accepted" })).response.status, 400);
     });
     await test("visible category API and malformed query", async () => {
       const r = await request("/api/categories"); assert.equal(r.response.status, 200); assert(r.result.data.length >= 6);
