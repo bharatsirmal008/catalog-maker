@@ -20,10 +20,19 @@ export async function persistSourceProduct(connectionId: string, input: SourcePr
     // Do not roll a newer imported record backwards when source pages race updates.
     if (existing?.sourceUpdatedAt && existing.sourceUpdatedAt > new Date(product.updatedAt)) return "skipped" as const;
     let categoryId: string | null = null;
+    const categoryIds = new Map<string, string>();
     for (const category of product.categories) {
       const row = await tx.category.upsert({ where: { sourceConnectionId_sourceCategoryId: { sourceConnectionId: connectionId, sourceCategoryId: category.externalId } },
         create: { name: category.name, slug: identitySlug("category", connectionId, category.externalId), sourceConnectionId: connectionId, sourceCategoryId: category.externalId }, update: { name: category.name } });
       categoryId ??= row.id;
+      categoryIds.set(category.externalId, row.id);
+    }
+    for (const category of product.categories) {
+      if (category.parentExternalId !== undefined) {
+        const parentId = category.parentExternalId ? categoryIds.get(category.parentExternalId) : null;
+        if (parentId === undefined) throw new IntegrationError("INVALID_RESPONSE");
+        await tx.category.update({ where: { id: categoryIds.get(category.externalId)! }, data: { parentId } });
+      }
     }
     const data = { name: product.name, description: product.description, sku: product.sku, price: new Prisma.Decimal(product.price), currency: product.currency, sourceUrl: product.sourceUrl,
       sourceVisible: product.sourceVisible, sourceUpdatedAt: new Date(product.updatedAt), sourceHash: hash, sourceMetadata: product.metadata as Prisma.InputJsonValue, availability: product.availability, categoryId };

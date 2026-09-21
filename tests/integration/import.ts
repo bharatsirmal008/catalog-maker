@@ -8,6 +8,8 @@ import { IntegrationError } from "../../src/lib/integrations/errors";
 import type { SourceProduct } from "../../src/lib/integrations/product";
 import { listProducts, productDetail } from "../../src/lib/catalog/product.service";
 import { productQuery } from "../../src/lib/validations/catalog";
+import { mapWooProduct } from "../../src/lib/integrations/woocommerce/mapper";
+import { wooFixture, wooCategories } from "../fixtures/woo";
 if (process.env.ALLOW_INTEGRATION_TESTS !== "true") throw new Error("Explicit integration-test opt-in required");
 function fixture(i: number): SourceProduct { return { externalId: `fixture-${i}`, name: `Integration fixture ${i}`, description: "Fixture, not a live import", sku: "SHARED-SKU", price: "1234.56", currency: "INR", sourceVisible: true, availability: "IN_STOCK", sourceUrl: null, updatedAt: "2026-09-01T00:00:00Z", categories: [{ externalId: "category-1", name: "Fixture collection" }], images: [{ externalId: "image-1", url: "https://cdn.shopify.com/s/files/demo.png", alt: null }], variants: [{ externalId: `variant-${i}`, title: "One", sku: null, price: "1234.56", stockQuantity: null, availability: "IN_STOCK", attributes: { Size: "One" } }], metadata: {} }; }
 const records = Array.from({ length: 50 }, (_, i) => fixture(i));
@@ -62,6 +64,14 @@ async function main() {
     assert.equal(await prisma.product.count({ where: { sourceConnectionId: sources[0], sourceProductId: "fixture-80" } }), 0);
     console.log("PASS interrupted run recovery and stale-run write fencing");
     assert.deepEqual(await prisma.product.findMany({ where: { sourceConnectionId: null }, orderBy: { id: "asc" } }), localBefore); console.log("PASS manual/local products unchanged");
+    const woo = await prisma.sourceConnection.create({ data: { provider: "WOOCOMMERCE", storeUrl: `https://fixture-${randomUUID()}.test`, credentialKey: "TEST_ONLY_NOT_LIVE", enabled: true, verifiedAt: new Date() } }); sources.push(woo.id);
+    const wooRecords = Array.from({ length: 50 }, (_, i) => mapWooProduct(wooFixture(i + 1), [], wooCategories, "INR"));
+    assert.equal((await runImport(woo.id, pages(wooRecords))).importedCount, 50);
+    assert.equal((await runImport(woo.id, pages(wooRecords))).skippedCount, 50);
+    const wooChild = await prisma.category.findFirstOrThrow({ where: { sourceConnectionId: woo.id, sourceCategoryId: "2" } });
+    assert.equal((await prisma.category.findUniqueOrThrow({ where: { id: wooChild.parentId! } })).sourceCategoryId, "1");
+    assert.equal(await prisma.product.count({ where: { sourceConnectionId: sources[1] } }), 1);
+    console.log("PASS 50 WooCommerce mapper fixtures, 50 repeat skips, category hierarchy and provider isolation (not live)");
   } finally {
     await prisma.product.deleteMany({ where: { sourceConnectionId: { in: sources } } }); await prisma.category.deleteMany({ where: { sourceConnectionId: { in: sources } } }); await prisma.syncRun.deleteMany({ where: { sourceConnectionId: { in: sources } } }); await prisma.sourceConnection.deleteMany({ where: { id: { in: sources } } }); await prisma.$disconnect();
   }
