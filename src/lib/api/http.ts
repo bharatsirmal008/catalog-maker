@@ -1,6 +1,7 @@
 import "server-only";
 import { ZodError } from "zod";
 import { Prisma } from "@/generated/prisma/client";
+import { IntegrationError } from "@/lib/integrations/errors";
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) { super(message); }
@@ -10,6 +11,7 @@ export function json(data: unknown, status = 200) {
 }
 export async function endpoint(action: () => Promise<Response>): Promise<Response> {
   try { return await action(); } catch (error) {
+    if (error instanceof IntegrationError) return json({ error: { code: error.code, message: error.message, retryable: error.retryable } }, error.code === "CONFIGURATION" ? 409 : 502);
     if (error instanceof ZodError) return json({ error: { message: "Invalid request", issues: error.issues.map((i) => ({ field: i.path.join("."), message: i.message })) } }, 400);
     if (error instanceof ApiError) return json({ error: { message: error.message } }, error.status);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

@@ -35,6 +35,10 @@ async function main() {
       }
       assert.equal((await request("/api/admin/products", "GET", undefined, "")).response.status, 401);
       assert.equal((await request("/api/admin/integrations/shopify/check", "POST", {}, "")).response.status, 401);
+      assert.equal((await request("/api/admin/sources", "GET", undefined, "")).response.status, 401);
+      assert.equal((await request("/api/admin/sources", "POST", {}, "")).response.status, 401);
+      assert.equal((await request(`/api/admin/sources/${randomUUID()}/import`, "POST", {}, "")).response.status, 401);
+      assert.equal((await request(`/api/admin/sources/${randomUUID()}/runs`, "GET", undefined, "")).response.status, 401);
     });
     await test("invalid credentials rejected; login origin checked", async () => {
       assert.equal((await request("/api/admin/login", "POST", { email, password: "wrong" }, "")).response.status, 401);

@@ -15,14 +15,14 @@ export const cardSelect = {
 export const detailSelect = {
   ...cardSelect, description: true, sku: true, sourceUrl: true,
   images: { select: imageSelect, orderBy: { displayOrder: "asc" as const } },
-  variants: { select: { id: true, sku: true, title: true, price: true, stockQuantity: true, attributes: true }, orderBy: { id: "asc" as const } },
+  variants: { select: { id: true, sku: true, title: true, price: true, stockQuantity: true, availability: true, attributes: true }, orderBy: { id: "asc" as const } },
 } satisfies Prisma.ProductSelect;
 function card(row: Prisma.ProductGetPayload<{ select: typeof cardSelect }>) {
   return { ...row, price: row.price.toFixed(2) };
 }
 async function publicWhere(): Promise<Prisma.ProductWhereInput> {
   const categories = await listCategories();
-  return { isVisible: true, OR: [{ categoryId: null }, { categoryId: { in: categories.map((c) => c.id) } }] };
+  return { isVisible: true, sourceVisible: true, OR: [{ categoryId: null }, { categoryId: { in: categories.map((c) => c.id) } }] };
 }
 export async function listProducts(query: ProductQuery, admin = false) {
   const where: Prisma.ProductWhereInput = { AND: [

@@ -1212,6 +1212,7 @@ export const SourceConnectionScalarFieldEnum = {
   credentialKey: 'credentialKey',
   enabled: 'enabled',
   lastSyncAt: 'lastSyncAt',
+  verifiedAt: 'verifiedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1223,6 +1224,10 @@ export const ProductScalarFieldEnum = {
   id: 'id',
   sourceConnectionId: 'sourceConnectionId',
   sourceProductId: 'sourceProductId',
+  sourceUpdatedAt: 'sourceUpdatedAt',
+  sourceHash: 'sourceHash',
+  sourceVisible: 'sourceVisible',
+  sourceMetadata: 'sourceMetadata',
   name: 'name',
   slug: 'slug',
   description: 'description',
@@ -1247,6 +1252,8 @@ export const CategoryScalarFieldEnum = {
   name: 'name',
   slug: 'slug',
   parentId: 'parentId',
+  sourceConnectionId: 'sourceConnectionId',
+  sourceCategoryId: 'sourceCategoryId',
   displayOrder: 'displayOrder',
   isVisible: 'isVisible',
   createdAt: 'createdAt',
@@ -1275,6 +1282,7 @@ export const ProductVariantScalarFieldEnum = {
   title: 'title',
   price: 'price',
   stockQuantity: 'stockQuantity',
+  availability: 'availability',
   attributes: 'attributes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1349,6 +1357,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const JsonNullValueInput = {
@@ -1439,6 +1455,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -1477,20 +1507,6 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 

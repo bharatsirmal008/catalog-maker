@@ -12,6 +12,7 @@ export class ShopifyClient {
   private readonly sleep: (milliseconds: number) => Promise<void>;
   private readonly timeoutMs: number;
   private readonly domain: string;
+  private readonly deadline = Date.now() + 8 * 60 * 1000;
   constructor(private readonly config: ShopifyConfig, dependencies: Dependencies = {}) {
     this.domain = normalizeShopifyDomain(config.domain);
     if (config.version !== SHOPIFY_API_VERSION) throw new IntegrationError("CONFIGURATION");
@@ -20,8 +21,9 @@ export class ShopifyClient {
     this.timeoutMs = dependencies.timeoutMs ?? 10000;
   }
   private async request(path: string, body: string, headers: Record<string, string>): Promise<{ value: unknown; response: Response }> {
+    if (Date.now() >= this.deadline) throw new IntegrationError("TIMEOUT");
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), this.timeoutMs);
+    const timer = setTimeout(() => controller.abort(), Math.min(this.timeoutMs, this.deadline - Date.now()));
     try {
       const response = await this.fetcher(`https://${this.domain}${path}`, { method: "POST", headers, body, signal: controller.signal, redirect: "error", cache: "no-store" });
       if ([401, 403].includes(response.status)) throw new IntegrationError(response.status === 401 ? "AUTHENTICATION" : "PERMISSION");

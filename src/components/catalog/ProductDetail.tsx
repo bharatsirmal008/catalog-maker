@@ -9,7 +9,7 @@ import { AvailabilityBadge } from "./AvailabilityBadge";
 export function ProductDetail({ product }: { product: ProductDetailData }) {
   const [variantId, setVariantId] = useState(product.variants[0]?.id ?? "");
   const variant = product.variants.find((v) => v.id === variantId);
-  const available = product.availability !== "IN_STOCK" ? product.availability : variant?.stockQuantity === 0 ? "OUT_OF_STOCK" : product.availability;
+  const available = product.availability === "UNAVAILABLE" ? "UNAVAILABLE" : variant?.availability ?? (product.availability !== "IN_STOCK" ? product.availability : variant?.stockQuantity === 0 ? "OUT_OF_STOCK" : product.availability);
   return <section className="product-detail">
     <ProductGallery key={product.id} images={product.images} name={product.name} />
     <div className="detail-copy">

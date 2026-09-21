@@ -4,6 +4,7 @@ import { currentAdmin } from "@/lib/auth/session";
 import { LogoutButton } from "@/components/admin/LogoutButton";
 import { CatalogSettings } from "@/components/admin/CatalogSettings";
 import { getCatalogConfig } from "@/lib/catalog/catalog.service";
+import { SourceManager } from "@/components/admin/SourceManager";
 
 export const metadata = {
   title: "Admin access | Catalog Maker",
@@ -28,6 +29,7 @@ export default async function AdminPage() {
           Return to catalog
         </Link>
         <CatalogSettings config={config} />
+        <SourceManager />
         <div className="mt-6"><LogoutButton /></div>
       </section>
     </main>

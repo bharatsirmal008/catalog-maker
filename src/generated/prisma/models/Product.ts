@@ -40,6 +40,9 @@ export type ProductMinAggregateOutputType = {
   id: string | null
   sourceConnectionId: string | null
   sourceProductId: string | null
+  sourceUpdatedAt: Date | null
+  sourceHash: string | null
+  sourceVisible: boolean | null
   name: string | null
   slug: string | null
   description: string | null
@@ -60,6 +63,9 @@ export type ProductMaxAggregateOutputType = {
   id: string | null
   sourceConnectionId: string | null
   sourceProductId: string | null
+  sourceUpdatedAt: Date | null
+  sourceHash: string | null
+  sourceVisible: boolean | null
   name: string | null
   slug: string | null
   description: string | null
@@ -80,6 +86,10 @@ export type ProductCountAggregateOutputType = {
   id: number
   sourceConnectionId: number
   sourceProductId: number
+  sourceUpdatedAt: number
+  sourceHash: number
+  sourceVisible: number
+  sourceMetadata: number
   name: number
   slug: number
   description: number
@@ -112,6 +122,9 @@ export type ProductMinAggregateInputType = {
   id?: true
   sourceConnectionId?: true
   sourceProductId?: true
+  sourceUpdatedAt?: true
+  sourceHash?: true
+  sourceVisible?: true
   name?: true
   slug?: true
   description?: true
@@ -132,6 +145,9 @@ export type ProductMaxAggregateInputType = {
   id?: true
   sourceConnectionId?: true
   sourceProductId?: true
+  sourceUpdatedAt?: true
+  sourceHash?: true
+  sourceVisible?: true
   name?: true
   slug?: true
   description?: true
@@ -152,6 +168,10 @@ export type ProductCountAggregateInputType = {
   id?: true
   sourceConnectionId?: true
   sourceProductId?: true
+  sourceUpdatedAt?: true
+  sourceHash?: true
+  sourceVisible?: true
+  sourceMetadata?: true
   name?: true
   slug?: true
   description?: true
@@ -259,6 +279,10 @@ export type ProductGroupByOutputType = {
   id: string
   sourceConnectionId: string | null
   sourceProductId: string | null
+  sourceUpdatedAt: Date | null
+  sourceHash: string | null
+  sourceVisible: boolean
+  sourceMetadata: runtime.JsonValue | null
   name: string
   slug: string
   description: string | null
@@ -302,6 +326,10 @@ export type ProductWhereInput = {
   id?: Prisma.UuidFilter<"Product"> | string
   sourceConnectionId?: Prisma.UuidNullableFilter<"Product"> | string | null
   sourceProductId?: Prisma.StringNullableFilter<"Product"> | string | null
+  sourceUpdatedAt?: Prisma.DateTimeNullableFilter<"Product"> | Date | string | null
+  sourceHash?: Prisma.StringNullableFilter<"Product"> | string | null
+  sourceVisible?: Prisma.BoolFilter<"Product"> | boolean
+  sourceMetadata?: Prisma.JsonNullableFilter<"Product">
   name?: Prisma.StringFilter<"Product"> | string
   slug?: Prisma.StringFilter<"Product"> | string
   description?: Prisma.StringNullableFilter<"Product"> | string | null
@@ -326,6 +354,10 @@ export type ProductOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   sourceConnectionId?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceProductId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceVisible?: Prisma.SortOrder
+  sourceMetadata?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -355,6 +387,10 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
   sourceConnectionId?: Prisma.UuidNullableFilter<"Product"> | string | null
   sourceProductId?: Prisma.StringNullableFilter<"Product"> | string | null
+  sourceUpdatedAt?: Prisma.DateTimeNullableFilter<"Product"> | Date | string | null
+  sourceHash?: Prisma.StringNullableFilter<"Product"> | string | null
+  sourceVisible?: Prisma.BoolFilter<"Product"> | boolean
+  sourceMetadata?: Prisma.JsonNullableFilter<"Product">
   name?: Prisma.StringFilter<"Product"> | string
   description?: Prisma.StringNullableFilter<"Product"> | string | null
   sku?: Prisma.StringNullableFilter<"Product"> | string | null
@@ -378,6 +414,10 @@ export type ProductOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   sourceConnectionId?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceProductId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceVisible?: Prisma.SortOrder
+  sourceMetadata?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -406,6 +446,10 @@ export type ProductScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"Product"> | string
   sourceConnectionId?: Prisma.UuidNullableWithAggregatesFilter<"Product"> | string | null
   sourceProductId?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  sourceUpdatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Product"> | Date | string | null
+  sourceHash?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  sourceVisible?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
+  sourceMetadata?: Prisma.JsonNullableWithAggregatesFilter<"Product">
   name?: Prisma.StringWithAggregatesFilter<"Product"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Product"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
@@ -425,6 +469,10 @@ export type ProductScalarWhereWithAggregatesInput = {
 export type ProductCreateInput = {
   id?: string
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -448,6 +496,10 @@ export type ProductUncheckedCreateInput = {
   id?: string
   sourceConnectionId?: string | null
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -469,6 +521,10 @@ export type ProductUncheckedCreateInput = {
 export type ProductUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -492,6 +548,10 @@ export type ProductUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceConnectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -514,6 +574,10 @@ export type ProductCreateManyInput = {
   id?: string
   sourceConnectionId?: string | null
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -533,6 +597,10 @@ export type ProductCreateManyInput = {
 export type ProductUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -552,6 +620,10 @@ export type ProductUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceConnectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -587,6 +659,10 @@ export type ProductCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sourceConnectionId?: Prisma.SortOrder
   sourceProductId?: Prisma.SortOrder
+  sourceUpdatedAt?: Prisma.SortOrder
+  sourceHash?: Prisma.SortOrder
+  sourceVisible?: Prisma.SortOrder
+  sourceMetadata?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -612,6 +688,9 @@ export type ProductMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sourceConnectionId?: Prisma.SortOrder
   sourceProductId?: Prisma.SortOrder
+  sourceUpdatedAt?: Prisma.SortOrder
+  sourceHash?: Prisma.SortOrder
+  sourceVisible?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -632,6 +711,9 @@ export type ProductMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sourceConnectionId?: Prisma.SortOrder
   sourceProductId?: Prisma.SortOrder
+  sourceUpdatedAt?: Prisma.SortOrder
+  sourceHash?: Prisma.SortOrder
+  sourceVisible?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -797,6 +879,10 @@ export type ProductUpdateOneRequiredWithoutVariantsNestedInput = {
 export type ProductCreateWithoutSourceConnectionInput = {
   id?: string
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -818,6 +904,10 @@ export type ProductCreateWithoutSourceConnectionInput = {
 export type ProductUncheckedCreateWithoutSourceConnectionInput = {
   id?: string
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -869,6 +959,10 @@ export type ProductScalarWhereInput = {
   id?: Prisma.UuidFilter<"Product"> | string
   sourceConnectionId?: Prisma.UuidNullableFilter<"Product"> | string | null
   sourceProductId?: Prisma.StringNullableFilter<"Product"> | string | null
+  sourceUpdatedAt?: Prisma.DateTimeNullableFilter<"Product"> | Date | string | null
+  sourceHash?: Prisma.StringNullableFilter<"Product"> | string | null
+  sourceVisible?: Prisma.BoolFilter<"Product"> | boolean
+  sourceMetadata?: Prisma.JsonNullableFilter<"Product">
   name?: Prisma.StringFilter<"Product"> | string
   slug?: Prisma.StringFilter<"Product"> | string
   description?: Prisma.StringNullableFilter<"Product"> | string | null
@@ -888,6 +982,10 @@ export type ProductScalarWhereInput = {
 export type ProductCreateWithoutCategoryInput = {
   id?: string
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -910,6 +1008,10 @@ export type ProductUncheckedCreateWithoutCategoryInput = {
   id?: string
   sourceConnectionId?: string | null
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -956,6 +1058,10 @@ export type ProductUpdateManyWithWhereWithoutCategoryInput = {
 export type ProductCreateWithoutImagesInput = {
   id?: string
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -978,6 +1084,10 @@ export type ProductUncheckedCreateWithoutImagesInput = {
   id?: string
   sourceConnectionId?: string | null
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -1014,6 +1124,10 @@ export type ProductUpdateToOneWithWhereWithoutImagesInput = {
 export type ProductUpdateWithoutImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1036,6 +1150,10 @@ export type ProductUncheckedUpdateWithoutImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceConnectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1056,6 +1174,10 @@ export type ProductUncheckedUpdateWithoutImagesInput = {
 export type ProductCreateWithoutVariantsInput = {
   id?: string
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -1078,6 +1200,10 @@ export type ProductUncheckedCreateWithoutVariantsInput = {
   id?: string
   sourceConnectionId?: string | null
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -1114,6 +1240,10 @@ export type ProductUpdateToOneWithWhereWithoutVariantsInput = {
 export type ProductUpdateWithoutVariantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1136,6 +1266,10 @@ export type ProductUncheckedUpdateWithoutVariantsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceConnectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1156,6 +1290,10 @@ export type ProductUncheckedUpdateWithoutVariantsInput = {
 export type ProductCreateManySourceConnectionInput = {
   id?: string
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -1175,6 +1313,10 @@ export type ProductCreateManySourceConnectionInput = {
 export type ProductUpdateWithoutSourceConnectionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1196,6 +1338,10 @@ export type ProductUpdateWithoutSourceConnectionInput = {
 export type ProductUncheckedUpdateWithoutSourceConnectionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1217,6 +1363,10 @@ export type ProductUncheckedUpdateWithoutSourceConnectionInput = {
 export type ProductUncheckedUpdateManyWithoutSourceConnectionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1237,6 +1387,10 @@ export type ProductCreateManyCategoryInput = {
   id?: string
   sourceConnectionId?: string | null
   sourceProductId?: string | null
+  sourceUpdatedAt?: Date | string | null
+  sourceHash?: string | null
+  sourceVisible?: boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name: string
   slug: string
   description?: string | null
@@ -1255,6 +1409,10 @@ export type ProductCreateManyCategoryInput = {
 export type ProductUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1277,6 +1435,10 @@ export type ProductUncheckedUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceConnectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1298,6 +1460,10 @@ export type ProductUncheckedUpdateManyWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sourceConnectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceProductId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sourceHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sourceMetadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1357,6 +1523,10 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   sourceConnectionId?: boolean
   sourceProductId?: boolean
+  sourceUpdatedAt?: boolean
+  sourceHash?: boolean
+  sourceVisible?: boolean
+  sourceMetadata?: boolean
   name?: boolean
   slug?: boolean
   description?: boolean
@@ -1382,6 +1552,10 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   sourceConnectionId?: boolean
   sourceProductId?: boolean
+  sourceUpdatedAt?: boolean
+  sourceHash?: boolean
+  sourceVisible?: boolean
+  sourceMetadata?: boolean
   name?: boolean
   slug?: boolean
   description?: boolean
@@ -1404,6 +1578,10 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   sourceConnectionId?: boolean
   sourceProductId?: boolean
+  sourceUpdatedAt?: boolean
+  sourceHash?: boolean
+  sourceVisible?: boolean
+  sourceMetadata?: boolean
   name?: boolean
   slug?: boolean
   description?: boolean
@@ -1426,6 +1604,10 @@ export type ProductSelectScalar = {
   id?: boolean
   sourceConnectionId?: boolean
   sourceProductId?: boolean
+  sourceUpdatedAt?: boolean
+  sourceHash?: boolean
+  sourceVisible?: boolean
+  sourceMetadata?: boolean
   name?: boolean
   slug?: boolean
   description?: boolean
@@ -1442,7 +1624,7 @@ export type ProductSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sourceConnectionId" | "sourceProductId" | "name" | "slug" | "description" | "sku" | "price" | "currency" | "availability" | "sourceUrl" | "categoryId" | "isVisible" | "isFeatured" | "displayOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sourceConnectionId" | "sourceProductId" | "sourceUpdatedAt" | "sourceHash" | "sourceVisible" | "sourceMetadata" | "name" | "slug" | "description" | "sku" | "price" | "currency" | "availability" | "sourceUrl" | "categoryId" | "isVisible" | "isFeatured" | "displayOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sourceConnection?: boolean | Prisma.Product$sourceConnectionArgs<ExtArgs>
   category?: boolean | Prisma.Product$categoryArgs<ExtArgs>
@@ -1471,6 +1653,10 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     sourceConnectionId: string | null
     sourceProductId: string | null
+    sourceUpdatedAt: Date | null
+    sourceHash: string | null
+    sourceVisible: boolean
+    sourceMetadata: runtime.JsonValue | null
     name: string
     slug: string
     description: string | null
@@ -1915,6 +2101,10 @@ export interface ProductFieldRefs {
   readonly id: Prisma.FieldRef<"Product", 'String'>
   readonly sourceConnectionId: Prisma.FieldRef<"Product", 'String'>
   readonly sourceProductId: Prisma.FieldRef<"Product", 'String'>
+  readonly sourceUpdatedAt: Prisma.FieldRef<"Product", 'DateTime'>
+  readonly sourceHash: Prisma.FieldRef<"Product", 'String'>
+  readonly sourceVisible: Prisma.FieldRef<"Product", 'Boolean'>
+  readonly sourceMetadata: Prisma.FieldRef<"Product", 'Json'>
   readonly name: Prisma.FieldRef<"Product", 'String'>
   readonly slug: Prisma.FieldRef<"Product", 'String'>
   readonly description: Prisma.FieldRef<"Product", 'String'>

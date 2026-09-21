@@ -26,7 +26,9 @@ export async function writeCategory(data: CategoryInput | CategoryUpdate, id?: s
   return prisma.$transaction(async (tx) => {
     // Serialize hierarchy mutations so concurrent reparenting cannot introduce a cycle.
     await tx.$executeRaw`SELECT pg_advisory_xact_lock(7438291)`;
-    if (id && !await tx.category.findUnique({ where: { id } })) throw new ApiError(404, "Category not found");
+    const existing = id ? await tx.category.findUnique({ where: { id } }) : null;
+    if (id && !existing) throw new ApiError(404, "Category not found");
+    if (existing?.sourceConnectionId && Object.keys(data).some((key) => !["isVisible", "displayOrder"].includes(key))) throw new ApiError(409, "Imported category source fields are read-only.");
     if (data.parentId) {
       const visited = new Set(id ? [id] : []);
       let parent: string | null = data.parentId;
@@ -43,6 +45,8 @@ export async function writeCategory(data: CategoryInput | CategoryUpdate, id?: s
   });
 }
 export async function deleteCategory(id: string) {
+  const existing = await prisma.category.findUnique({ where: { id } });
+  if (existing?.sourceConnectionId) throw new ApiError(409, "Hide imported categories instead of deleting their source identity.");
   // Existing FK SET NULL behavior preserves products and reparents children to the root.
   return prisma.category.delete({ where: { id } });
 }

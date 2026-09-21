@@ -31,6 +31,7 @@ export type SourceConnectionMinAggregateOutputType = {
   credentialKey: string | null
   enabled: boolean | null
   lastSyncAt: Date | null
+  verifiedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,6 +43,7 @@ export type SourceConnectionMaxAggregateOutputType = {
   credentialKey: string | null
   enabled: boolean | null
   lastSyncAt: Date | null
+  verifiedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,6 +55,7 @@ export type SourceConnectionCountAggregateOutputType = {
   credentialKey: number
   enabled: number
   lastSyncAt: number
+  verifiedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -66,6 +69,7 @@ export type SourceConnectionMinAggregateInputType = {
   credentialKey?: true
   enabled?: true
   lastSyncAt?: true
+  verifiedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -77,6 +81,7 @@ export type SourceConnectionMaxAggregateInputType = {
   credentialKey?: true
   enabled?: true
   lastSyncAt?: true
+  verifiedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -88,6 +93,7 @@ export type SourceConnectionCountAggregateInputType = {
   credentialKey?: true
   enabled?: true
   lastSyncAt?: true
+  verifiedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -172,6 +178,7 @@ export type SourceConnectionGroupByOutputType = {
   credentialKey: string
   enabled: boolean
   lastSyncAt: Date | null
+  verifiedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: SourceConnectionCountAggregateOutputType | null
@@ -204,10 +211,12 @@ export type SourceConnectionWhereInput = {
   credentialKey?: Prisma.StringFilter<"SourceConnection"> | string
   enabled?: Prisma.BoolFilter<"SourceConnection"> | boolean
   lastSyncAt?: Prisma.DateTimeNullableFilter<"SourceConnection"> | Date | string | null
+  verifiedAt?: Prisma.DateTimeNullableFilter<"SourceConnection"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SourceConnection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SourceConnection"> | Date | string
   products?: Prisma.ProductListRelationFilter
   syncRuns?: Prisma.SyncRunListRelationFilter
+  categories?: Prisma.CategoryListRelationFilter
 }
 
 export type SourceConnectionOrderByWithRelationInput = {
@@ -217,10 +226,12 @@ export type SourceConnectionOrderByWithRelationInput = {
   credentialKey?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   lastSyncAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   products?: Prisma.ProductOrderByRelationAggregateInput
   syncRuns?: Prisma.SyncRunOrderByRelationAggregateInput
+  categories?: Prisma.CategoryOrderByRelationAggregateInput
 }
 
 export type SourceConnectionWhereUniqueInput = Prisma.AtLeast<{
@@ -234,10 +245,12 @@ export type SourceConnectionWhereUniqueInput = Prisma.AtLeast<{
   credentialKey?: Prisma.StringFilter<"SourceConnection"> | string
   enabled?: Prisma.BoolFilter<"SourceConnection"> | boolean
   lastSyncAt?: Prisma.DateTimeNullableFilter<"SourceConnection"> | Date | string | null
+  verifiedAt?: Prisma.DateTimeNullableFilter<"SourceConnection"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SourceConnection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SourceConnection"> | Date | string
   products?: Prisma.ProductListRelationFilter
   syncRuns?: Prisma.SyncRunListRelationFilter
+  categories?: Prisma.CategoryListRelationFilter
 }, "id" | "provider_storeUrl">
 
 export type SourceConnectionOrderByWithAggregationInput = {
@@ -247,6 +260,7 @@ export type SourceConnectionOrderByWithAggregationInput = {
   credentialKey?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   lastSyncAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SourceConnectionCountOrderByAggregateInput
@@ -264,6 +278,7 @@ export type SourceConnectionScalarWhereWithAggregatesInput = {
   credentialKey?: Prisma.StringWithAggregatesFilter<"SourceConnection"> | string
   enabled?: Prisma.BoolWithAggregatesFilter<"SourceConnection"> | boolean
   lastSyncAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SourceConnection"> | Date | string | null
+  verifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SourceConnection"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SourceConnection"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SourceConnection"> | Date | string
 }
@@ -275,10 +290,12 @@ export type SourceConnectionCreateInput = {
   credentialKey: string
   enabled?: boolean
   lastSyncAt?: Date | string | null
+  verifiedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCreateNestedManyWithoutSourceConnectionInput
   syncRuns?: Prisma.SyncRunCreateNestedManyWithoutSourceConnectionInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutSourceConnectionInput
 }
 
 export type SourceConnectionUncheckedCreateInput = {
@@ -288,10 +305,12 @@ export type SourceConnectionUncheckedCreateInput = {
   credentialKey: string
   enabled?: boolean
   lastSyncAt?: Date | string | null
+  verifiedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutSourceConnectionInput
   syncRuns?: Prisma.SyncRunUncheckedCreateNestedManyWithoutSourceConnectionInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutSourceConnectionInput
 }
 
 export type SourceConnectionUpdateInput = {
@@ -301,10 +320,12 @@ export type SourceConnectionUpdateInput = {
   credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUpdateManyWithoutSourceConnectionNestedInput
   syncRuns?: Prisma.SyncRunUpdateManyWithoutSourceConnectionNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutSourceConnectionNestedInput
 }
 
 export type SourceConnectionUncheckedUpdateInput = {
@@ -314,10 +335,12 @@ export type SourceConnectionUncheckedUpdateInput = {
   credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUncheckedUpdateManyWithoutSourceConnectionNestedInput
   syncRuns?: Prisma.SyncRunUncheckedUpdateManyWithoutSourceConnectionNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutSourceConnectionNestedInput
 }
 
 export type SourceConnectionCreateManyInput = {
@@ -327,6 +350,7 @@ export type SourceConnectionCreateManyInput = {
   credentialKey: string
   enabled?: boolean
   lastSyncAt?: Date | string | null
+  verifiedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -338,6 +362,7 @@ export type SourceConnectionUpdateManyMutationInput = {
   credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -349,6 +374,7 @@ export type SourceConnectionUncheckedUpdateManyInput = {
   credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -365,6 +391,7 @@ export type SourceConnectionCountOrderByAggregateInput = {
   credentialKey?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   lastSyncAt?: Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -376,6 +403,7 @@ export type SourceConnectionMaxOrderByAggregateInput = {
   credentialKey?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   lastSyncAt?: Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -387,6 +415,7 @@ export type SourceConnectionMinOrderByAggregateInput = {
   credentialKey?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   lastSyncAt?: Prisma.SortOrder
+  verifiedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -437,6 +466,22 @@ export type SourceConnectionUpdateOneWithoutProductsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SourceConnectionUpdateToOneWithWhereWithoutProductsInput, Prisma.SourceConnectionUpdateWithoutProductsInput>, Prisma.SourceConnectionUncheckedUpdateWithoutProductsInput>
 }
 
+export type SourceConnectionCreateNestedOneWithoutCategoriesInput = {
+  create?: Prisma.XOR<Prisma.SourceConnectionCreateWithoutCategoriesInput, Prisma.SourceConnectionUncheckedCreateWithoutCategoriesInput>
+  connectOrCreate?: Prisma.SourceConnectionCreateOrConnectWithoutCategoriesInput
+  connect?: Prisma.SourceConnectionWhereUniqueInput
+}
+
+export type SourceConnectionUpdateOneWithoutCategoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.SourceConnectionCreateWithoutCategoriesInput, Prisma.SourceConnectionUncheckedCreateWithoutCategoriesInput>
+  connectOrCreate?: Prisma.SourceConnectionCreateOrConnectWithoutCategoriesInput
+  upsert?: Prisma.SourceConnectionUpsertWithoutCategoriesInput
+  disconnect?: Prisma.SourceConnectionWhereInput | boolean
+  delete?: Prisma.SourceConnectionWhereInput | boolean
+  connect?: Prisma.SourceConnectionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SourceConnectionUpdateToOneWithWhereWithoutCategoriesInput, Prisma.SourceConnectionUpdateWithoutCategoriesInput>, Prisma.SourceConnectionUncheckedUpdateWithoutCategoriesInput>
+}
+
 export type SourceConnectionCreateNestedOneWithoutSyncRunsInput = {
   create?: Prisma.XOR<Prisma.SourceConnectionCreateWithoutSyncRunsInput, Prisma.SourceConnectionUncheckedCreateWithoutSyncRunsInput>
   connectOrCreate?: Prisma.SourceConnectionCreateOrConnectWithoutSyncRunsInput
@@ -458,9 +503,11 @@ export type SourceConnectionCreateWithoutProductsInput = {
   credentialKey: string
   enabled?: boolean
   lastSyncAt?: Date | string | null
+  verifiedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   syncRuns?: Prisma.SyncRunCreateNestedManyWithoutSourceConnectionInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutSourceConnectionInput
 }
 
 export type SourceConnectionUncheckedCreateWithoutProductsInput = {
@@ -470,9 +517,11 @@ export type SourceConnectionUncheckedCreateWithoutProductsInput = {
   credentialKey: string
   enabled?: boolean
   lastSyncAt?: Date | string | null
+  verifiedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   syncRuns?: Prisma.SyncRunUncheckedCreateNestedManyWithoutSourceConnectionInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutSourceConnectionInput
 }
 
 export type SourceConnectionCreateOrConnectWithoutProductsInput = {
@@ -498,9 +547,11 @@ export type SourceConnectionUpdateWithoutProductsInput = {
   credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   syncRuns?: Prisma.SyncRunUpdateManyWithoutSourceConnectionNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutSourceConnectionNestedInput
 }
 
 export type SourceConnectionUncheckedUpdateWithoutProductsInput = {
@@ -510,8 +561,82 @@ export type SourceConnectionUncheckedUpdateWithoutProductsInput = {
   credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  syncRuns?: Prisma.SyncRunUncheckedUpdateManyWithoutSourceConnectionNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutSourceConnectionNestedInput
+}
+
+export type SourceConnectionCreateWithoutCategoriesInput = {
+  id?: string
+  provider: $Enums.SourceProvider
+  storeUrl: string
+  credentialKey: string
+  enabled?: boolean
+  lastSyncAt?: Date | string | null
+  verifiedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  products?: Prisma.ProductCreateNestedManyWithoutSourceConnectionInput
+  syncRuns?: Prisma.SyncRunCreateNestedManyWithoutSourceConnectionInput
+}
+
+export type SourceConnectionUncheckedCreateWithoutCategoriesInput = {
+  id?: string
+  provider: $Enums.SourceProvider
+  storeUrl: string
+  credentialKey: string
+  enabled?: boolean
+  lastSyncAt?: Date | string | null
+  verifiedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutSourceConnectionInput
+  syncRuns?: Prisma.SyncRunUncheckedCreateNestedManyWithoutSourceConnectionInput
+}
+
+export type SourceConnectionCreateOrConnectWithoutCategoriesInput = {
+  where: Prisma.SourceConnectionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SourceConnectionCreateWithoutCategoriesInput, Prisma.SourceConnectionUncheckedCreateWithoutCategoriesInput>
+}
+
+export type SourceConnectionUpsertWithoutCategoriesInput = {
+  update: Prisma.XOR<Prisma.SourceConnectionUpdateWithoutCategoriesInput, Prisma.SourceConnectionUncheckedUpdateWithoutCategoriesInput>
+  create: Prisma.XOR<Prisma.SourceConnectionCreateWithoutCategoriesInput, Prisma.SourceConnectionUncheckedCreateWithoutCategoriesInput>
+  where?: Prisma.SourceConnectionWhereInput
+}
+
+export type SourceConnectionUpdateToOneWithWhereWithoutCategoriesInput = {
+  where?: Prisma.SourceConnectionWhereInput
+  data: Prisma.XOR<Prisma.SourceConnectionUpdateWithoutCategoriesInput, Prisma.SourceConnectionUncheckedUpdateWithoutCategoriesInput>
+}
+
+export type SourceConnectionUpdateWithoutCategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumSourceProviderFieldUpdateOperationsInput | $Enums.SourceProvider
+  storeUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
+  enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  products?: Prisma.ProductUpdateManyWithoutSourceConnectionNestedInput
+  syncRuns?: Prisma.SyncRunUpdateManyWithoutSourceConnectionNestedInput
+}
+
+export type SourceConnectionUncheckedUpdateWithoutCategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumSourceProviderFieldUpdateOperationsInput | $Enums.SourceProvider
+  storeUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
+  enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  products?: Prisma.ProductUncheckedUpdateManyWithoutSourceConnectionNestedInput
   syncRuns?: Prisma.SyncRunUncheckedUpdateManyWithoutSourceConnectionNestedInput
 }
 
@@ -522,9 +647,11 @@ export type SourceConnectionCreateWithoutSyncRunsInput = {
   credentialKey: string
   enabled?: boolean
   lastSyncAt?: Date | string | null
+  verifiedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCreateNestedManyWithoutSourceConnectionInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutSourceConnectionInput
 }
 
 export type SourceConnectionUncheckedCreateWithoutSyncRunsInput = {
@@ -534,9 +661,11 @@ export type SourceConnectionUncheckedCreateWithoutSyncRunsInput = {
   credentialKey: string
   enabled?: boolean
   lastSyncAt?: Date | string | null
+  verifiedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutSourceConnectionInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutSourceConnectionInput
 }
 
 export type SourceConnectionCreateOrConnectWithoutSyncRunsInput = {
@@ -562,9 +691,11 @@ export type SourceConnectionUpdateWithoutSyncRunsInput = {
   credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUpdateManyWithoutSourceConnectionNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutSourceConnectionNestedInput
 }
 
 export type SourceConnectionUncheckedUpdateWithoutSyncRunsInput = {
@@ -574,9 +705,11 @@ export type SourceConnectionUncheckedUpdateWithoutSyncRunsInput = {
   credentialKey?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUncheckedUpdateManyWithoutSourceConnectionNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutSourceConnectionNestedInput
 }
 
 
@@ -587,11 +720,13 @@ export type SourceConnectionUncheckedUpdateWithoutSyncRunsInput = {
 export type SourceConnectionCountOutputType = {
   products: number
   syncRuns: number
+  categories: number
 }
 
 export type SourceConnectionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | SourceConnectionCountOutputTypeCountProductsArgs
   syncRuns?: boolean | SourceConnectionCountOutputTypeCountSyncRunsArgs
+  categories?: boolean | SourceConnectionCountOutputTypeCountCategoriesArgs
 }
 
 /**
@@ -618,6 +753,13 @@ export type SourceConnectionCountOutputTypeCountSyncRunsArgs<ExtArgs extends run
   where?: Prisma.SyncRunWhereInput
 }
 
+/**
+ * SourceConnectionCountOutputType without action
+ */
+export type SourceConnectionCountOutputTypeCountCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CategoryWhereInput
+}
+
 
 export type SourceConnectionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -626,10 +768,12 @@ export type SourceConnectionSelect<ExtArgs extends runtime.Types.Extensions.Inte
   credentialKey?: boolean
   enabled?: boolean
   lastSyncAt?: boolean
+  verifiedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   products?: boolean | Prisma.SourceConnection$productsArgs<ExtArgs>
   syncRuns?: boolean | Prisma.SourceConnection$syncRunsArgs<ExtArgs>
+  categories?: boolean | Prisma.SourceConnection$categoriesArgs<ExtArgs>
   _count?: boolean | Prisma.SourceConnectionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sourceConnection"]>
 
@@ -640,6 +784,7 @@ export type SourceConnectionSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   credentialKey?: boolean
   enabled?: boolean
   lastSyncAt?: boolean
+  verifiedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["sourceConnection"]>
@@ -651,6 +796,7 @@ export type SourceConnectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   credentialKey?: boolean
   enabled?: boolean
   lastSyncAt?: boolean
+  verifiedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["sourceConnection"]>
@@ -662,14 +808,16 @@ export type SourceConnectionSelectScalar = {
   credentialKey?: boolean
   enabled?: boolean
   lastSyncAt?: boolean
+  verifiedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SourceConnectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "provider" | "storeUrl" | "credentialKey" | "enabled" | "lastSyncAt" | "createdAt" | "updatedAt", ExtArgs["result"]["sourceConnection"]>
+export type SourceConnectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "provider" | "storeUrl" | "credentialKey" | "enabled" | "lastSyncAt" | "verifiedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["sourceConnection"]>
 export type SourceConnectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.SourceConnection$productsArgs<ExtArgs>
   syncRuns?: boolean | Prisma.SourceConnection$syncRunsArgs<ExtArgs>
+  categories?: boolean | Prisma.SourceConnection$categoriesArgs<ExtArgs>
   _count?: boolean | Prisma.SourceConnectionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SourceConnectionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -680,6 +828,7 @@ export type $SourceConnectionPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     products: Prisma.$ProductPayload<ExtArgs>[]
     syncRuns: Prisma.$SyncRunPayload<ExtArgs>[]
+    categories: Prisma.$CategoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -688,6 +837,7 @@ export type $SourceConnectionPayload<ExtArgs extends runtime.Types.Extensions.In
     credentialKey: string
     enabled: boolean
     lastSyncAt: Date | null
+    verifiedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["sourceConnection"]>
@@ -1086,6 +1236,7 @@ export interface Prisma__SourceConnectionClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   products<T extends Prisma.SourceConnection$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SourceConnection$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   syncRuns<T extends Prisma.SourceConnection$syncRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SourceConnection$syncRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SyncRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  categories<T extends Prisma.SourceConnection$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SourceConnection$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1121,6 +1272,7 @@ export interface SourceConnectionFieldRefs {
   readonly credentialKey: Prisma.FieldRef<"SourceConnection", 'String'>
   readonly enabled: Prisma.FieldRef<"SourceConnection", 'Boolean'>
   readonly lastSyncAt: Prisma.FieldRef<"SourceConnection", 'DateTime'>
+  readonly verifiedAt: Prisma.FieldRef<"SourceConnection", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"SourceConnection", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SourceConnection", 'DateTime'>
 }
@@ -1561,6 +1713,30 @@ export type SourceConnection$syncRunsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.SyncRunScalarFieldEnum | Prisma.SyncRunScalarFieldEnum[]
+}
+
+/**
+ * SourceConnection.categories
+ */
+export type SourceConnection$categoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Category
+   */
+  select?: Prisma.CategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Category
+   */
+  omit?: Prisma.CategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryInclude<ExtArgs> | null
+  where?: Prisma.CategoryWhereInput
+  orderBy?: Prisma.CategoryOrderByWithRelationInput | Prisma.CategoryOrderByWithRelationInput[]
+  cursor?: Prisma.CategoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CategoryScalarFieldEnum | Prisma.CategoryScalarFieldEnum[]
 }
 
 /**

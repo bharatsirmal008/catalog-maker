@@ -10,6 +10,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:api": "node --conditions=react-server --import tsx tests/integration/api.ts",
+    "test:import": "node --conditions=react-server --import tsx tests/integration/import.ts",
     "db:seed": "node --conditions=react-server --import tsx scripts/seed.ts",
     "admin:create": "node --conditions=react-server --import tsx scripts/create-admin.ts",
     "db:generate": "prisma generate",
