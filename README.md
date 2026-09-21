@@ -138,6 +138,7 @@ External account/store setup is deferred until the end of Days 5–10 work;
 fixture tests do not represent a live Shopify connection or live imports.
 
 Day 6 adds transactional source imports and admin source controls. See
+also [Day 7 synchronization and recovery](docs/day-07.md) for checkpoint and full-reconciliation policy.
 [Day 6](docs/day-06.md). `npm run test:import` runs the opt-in, local PostgreSQL
 fixture suite. No production external store is required for these tests.
 

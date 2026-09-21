@@ -6,11 +6,15 @@ import { sourceProductSchema, type SourceProduct } from "@/lib/integrations/prod
 import { IntegrationError } from "@/lib/integrations/errors";
 export function sourceHash(product: SourceProduct) { return createHash("sha256").update(JSON.stringify(product)).digest("hex"); }
 const identitySlug = (kind: string, connectionId: string, externalId: string) => `${kind}-${createHash("sha256").update(`${connectionId}:${externalId}`).digest("hex")}`;
-export async function persistSourceProduct(connectionId: string, input: SourceProduct) {
+export async function persistSourceProduct(connectionId: string, input: SourceProduct, runId?: string) {
   const product = sourceProductSchema.parse(input);
   if (new Set(product.variants.map((v) => v.externalId)).size !== product.variants.length) throw new IntegrationError("INVALID_RESPONSE");
   const hash = sourceHash(product);
   return prisma.$transaction(async (tx) => {
+    if (runId) {
+      const fence = await tx.syncRun.updateMany({ where: { id: runId, sourceConnectionId: connectionId, status: "RUNNING" }, data: { status: "RUNNING" } });
+      if (fence.count !== 1) throw new IntegrationError("NETWORK");
+    }
     const existing = await tx.product.findUnique({ where: { sourceConnectionId_sourceProductId: { sourceConnectionId: connectionId, sourceProductId: product.externalId } } });
     if (existing?.sourceHash === hash) return "skipped" as const;
     // Do not roll a newer imported record backwards when source pages race updates.
