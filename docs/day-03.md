@@ -63,5 +63,6 @@ were not separately exercised; their service behavior is covered by API tests.
 
 ## Remaining
 
-Day 4: interactive gallery/lightbox, persistent wishlist, enquiry selection,
-WhatsApp generation and full customer workflow verification.
+The Day 4 follow-up is implemented; see `day-04.md`. Its browser tests additionally
+verified hidden-category routing. Day 3's earlier NOT RUN entries above are a
+chronological record, not claims that subsequent verification was skipped.

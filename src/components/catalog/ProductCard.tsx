@@ -3,6 +3,7 @@ import type { ProductCardData } from "@/types/catalog";
 import { CatalogImage } from "./CatalogImage";
 import { PriceDisplay } from "./PriceDisplay";
 import { AvailabilityBadge } from "./AvailabilityBadge";
+import { ProductActions } from "./ProductActions";
 export function ProductCard({ product }: { product: ProductCardData }) {
   const image = product.images[0];
   return <article className="product-card">
@@ -14,6 +15,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
       <p className="eyebrow">{product.category?.name ?? "The collection"}</p>
       <h3><Link href={`/products/${product.id}`}>{product.name}</Link></h3>
       <div className="product-card-meta"><PriceDisplay price={product.price} currency={product.currency} /><AvailabilityBadge value={product.availability} /></div>
+      <ProductActions id={product.id} name={product.name} />
     </div>
   </article>;
 }

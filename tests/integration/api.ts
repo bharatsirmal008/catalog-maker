@@ -13,6 +13,7 @@ const productIds: string[] = [];
 const categoryIds: string[] = [];
 let adminId = "";
 let sessionCookie = "";
+let sessionCookieName = "catalog-admin";
 let passed = 0;
 async function request(path: string, method = "GET", body?: unknown, cookie = sessionCookie, origin = base) {
   const response = await fetch(base + path, { method, headers: { "Content-Type": "application/json", Origin: origin, ...(cookie ? { Cookie: cookie } : {}) }, body: body === undefined ? undefined : JSON.stringify(body) });
@@ -44,6 +45,7 @@ async function main() {
       const header = r.response.headers.get("set-cookie")!;
       assert.match(header, /HttpOnly/i); assert.match(header, /SameSite=strict/i);
       sessionCookie = header.split(";")[0];
+      sessionCookieName = sessionCookie.split("=")[0];
       assert.equal((await request("/api/admin/session")).result.data.email, email);
     });
     await test("visible category API and malformed query", async () => {
@@ -133,8 +135,8 @@ async function main() {
     await test("expired and forged sessions rejected", async () => {
       const token = randomBytes(32).toString("hex");
       await prisma.adminSession.create({ data: { adminId, tokenHash: createHash("sha256").update(token).digest("hex"), expiresAt: new Date(Date.now() - 1000) } });
-      assert.equal((await request("/api/admin/session", "GET", undefined, "catalog-admin=" + token)).response.status, 401);
-      assert.equal((await request("/api/admin/session", "GET", undefined, "catalog-admin=forged")).response.status, 401);
+      assert.equal((await request("/api/admin/session", "GET", undefined, sessionCookieName + "=" + token)).response.status, 401);
+      assert.equal((await request("/api/admin/session", "GET", undefined, sessionCookieName + "=forged")).response.status, 401);
     });
     console.log(`API integration: ${passed} groups passed.`);
   } finally {

@@ -109,6 +109,25 @@ Day 2 adds authenticated product/category management APIs, public catalog APIs, 
 
 Day 3 adds the responsive customer catalog. See [Day 3](docs/day-03.md) for architecture and actual verification.
 
+Day 4 adds the gallery/lightbox, persistent wishlist, multi-product enquiries
+and WhatsApp message preview. See [Day 4](docs/day-04.md) and the
+[combined development report](docs/final-development-report.md).
+
+Customer routes also include `/wishlist` and `/enquiry`. Sign in at `/admin/login`
+and set your own business name and international WhatsApp number in `/admin`.
+The default number is unset; no real destination is hardcoded. Customers must
+review and send the prepared message themselves. There is no checkout/payment.
+
+For a local production preview, build first, set `APP_URL=http://localhost:3000`
+in the process environment, and run `npm run start`. Real production requires
+HTTPS and a matching canonical APP_URL. Use `npm run dev` for ordinary local
+development. Localhost product links cannot be opened from another device.
+
+Verification: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`.
+For the local database/API suite, set `ALLOW_INTEGRATION_TESTS=true` and run
+`npm run test:api` while the application and PostgreSQL are running. This creates
+temporary test records and removes them afterward. Do not target a live store.
+
 To provision an administrator: `pwsh -File scripts/create-admin.ps1`. To seed local demo records, set `ALLOW_DEMO_SEED=true` and run `npm run db:seed`. Use Node 24 LTS (`.nvmrc`).
 
 Not implemented yet: external connectors, synchronization, second design or deployment.
