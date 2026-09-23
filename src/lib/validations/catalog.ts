@@ -46,7 +46,7 @@ export const categoryQuery = z.object({ parentId: uuid.optional() }).strict();
 export const catalogSettings = z.object({
   businessName: z.string().trim().min(1).max(100),
   whatsappNumber: z.string().regex(/^[1-9]\d{6,14}$/, "Use international digits only, without + or spaces").nullable(),
-  activeTemplate: z.literal("GRID"),
+  activeTemplate: z.enum(["GRID", "COLLECTION"]),
 }).strict();
 export const loginSchema = z.object({ email: z.email().max(254).transform((s) => s.toLowerCase()), password: z.string().min(1).max(256) }).strict();
 export type ProductInput = z.infer<typeof createProduct>;

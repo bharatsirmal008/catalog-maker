@@ -49,8 +49,8 @@ export async function productDetail(id: string, admin = false) {
   if (!row) throw new ApiError(404, "Product not found");
   return { ...row, price: row.price.toFixed(2), variants: row.variants.map((v) => ({ ...v, price: v.price.toFixed(2) })) };
 }
-export async function relatedProducts(id: string) {
-  const product = await productDetail(id);
+export async function relatedProducts(id: string, loadedProduct?: Awaited<ReturnType<typeof productDetail>>) {
+  const product = loadedProduct ?? await productDetail(id);
   if (!product.category) return [];
   const rows = await prisma.product.findMany({ where: { AND: [await publicWhere(), { categoryId: product.category.id, id: { not: id }, availability: "IN_STOCK" }] }, select: cardSelect, take: 4, orderBy: [{ displayOrder: "asc" }, { id: "asc" }] });
   return rows.map(card);

@@ -4,13 +4,15 @@ import type { CatalogConfigData } from "@/types/catalog";
 export function CatalogSettings({ config }: { config: CatalogConfigData }) {
   const [status, setStatus] = useState("");
   const [pending, setPending] = useState(false);
+  const [active, setActive] = useState(config.activeTemplate);
   async function save(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault(); setPending(true); setStatus("");
     const fields = new FormData(event.currentTarget);
     try {
-      const response = await fetch("/api/admin/config", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ businessName: fields.get("businessName"), whatsappNumber: String(fields.get("whatsappNumber") || "").trim() || null, activeTemplate: "GRID" }) });
+      const response = await fetch("/api/admin/config", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ businessName: fields.get("businessName"), whatsappNumber: String(fields.get("whatsappNumber") || "").trim() || null, activeTemplate: fields.get("activeTemplate") }) });
       if (!response.ok) throw new Error(response.status === 401 ? "Your session expired. Sign in again." : "Settings were not saved. Check the name and international phone digits.");
-      setStatus("Settings saved. The catalog will use these contact details.");
+      setActive((await response.json()).data.activeTemplate);
+      setStatus("Settings saved. Open the updated catalog or reload an existing catalog tab to apply the new design.");
     } catch (error) { setStatus(error instanceof Error ? error.message : "Could not save settings."); }
     finally { setPending(false); }
   }
@@ -18,6 +20,8 @@ export function CatalogSettings({ config }: { config: CatalogConfigData }) {
     <label className="grid gap-2">Business name<input className="rounded border bg-white p-3" name="businessName" defaultValue={config.businessName} required maxLength={100} /></label>
     <label className="grid gap-2">WhatsApp number<input className="rounded border bg-white p-3" name="whatsappNumber" type="tel" inputMode="numeric" pattern="[1-9][0-9]{6,14}" defaultValue={config.whatsappNumber ?? ""} aria-describedby="phone-help" /></label>
     <p id="phone-help" className="text-sm">International digits only, including country code, without + or spaces. Leave blank to disable WhatsApp enquiries. Use a number you control.</p>
+    <fieldset><legend className="mb-3 font-semibold">Catalog design · Active: {active === "GRID" ? "Modern Product Grid" : "Premium Collection Showcase"}</legend><div className="template-options">{[{ value: "GRID", title: "Modern Product Grid", description: "Compact product cards and fast, filter-led browsing." }, { value: "COLLECTION", title: "Premium Collection Showcase", description: "Editorial collections, large images and spacious product details." }].map((option) => <label key={option.value} className="template-option"><input type="radio" name="activeTemplate" value={option.value} defaultChecked={config.activeTemplate === option.value} /><span className={`template-preview preview-${option.value.toLowerCase()}`} aria-hidden="true"><i /><i /><i /><i /></span><strong>{option.title}</strong><span>{option.description}</span></label>)}</div></fieldset>
+    <a className="underline" href="/" target="_blank" rel="noopener">Open updated catalog</a>
     <button className="button" disabled={pending}>{pending ? "Saving…" : "Save settings"}</button><p role="status">{status}</p>
   </form>;
 }

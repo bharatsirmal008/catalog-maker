@@ -19,6 +19,8 @@ describe("catalog validation", () => {
   });
   it("allows missing WhatsApp but rejects invalid destinations", () => {
     expect(catalogSettings.safeParse({ businessName: "A", whatsappNumber: null, activeTemplate: "GRID" }).success).toBe(true);
+    expect(catalogSettings.safeParse({ businessName: "A", whatsappNumber: null, activeTemplate: "COLLECTION" }).success).toBe(true);
+    expect(catalogSettings.safeParse({ businessName: "A", whatsappNumber: null, activeTemplate: "ARBITRARY" }).success).toBe(false);
     expect(catalogSettings.safeParse({ businessName: "A", whatsappNumber: "+abc", activeTemplate: "GRID" }).success).toBe(false);
   });
 });

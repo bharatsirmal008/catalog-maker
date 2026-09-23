@@ -88,6 +88,20 @@ async function main() {
     await test("safe public configuration", async () => {
       const r = await request("/api/catalog/config"); assert.deepEqual(Object.keys(r.result.data).sort(), ["activeTemplate", "businessName", "whatsappNumber"]);
     });
+    await test("template setting authorization, persistence and fresh server rendering", async () => {
+      const original = (await request("/api/admin/config")).result.data;
+      try {
+        assert.equal((await request("/api/admin/config", "PATCH", { ...original, activeTemplate: "COLLECTION" }, "")).response.status, 401);
+        assert.equal((await request("/api/admin/config", "PATCH", { ...original, activeTemplate: "COLLECTION" }, sessionCookie, "https://evil.example")).response.status, 403);
+        assert.equal((await request("/api/admin/config", "PATCH", { ...original, activeTemplate: "UNKNOWN" })).response.status, 400);
+        for (const template of ["GRID", "COLLECTION"]) {
+          assert.equal((await request("/api/admin/config", "PATCH", { ...original, activeTemplate: template })).response.status, 200);
+          assert.equal((await request("/api/catalog/config")).result.data.activeTemplate, template);
+          const html = await (await fetch(base)).text(); assert(html.includes(`data-template="${template}"`));
+          if (template === "COLLECTION") assert(html.includes("showcase-hero"));
+        }
+      } finally { await request("/api/admin/config", "PATCH", original); }
+    });
     await test("category create, rename, visibility and cycles", async () => {
       const parent = await request("/api/admin/categories", "POST", { name: "Integration parent" }); assert.equal(parent.response.status, 201); categoryIds.push(parent.result.data.id);
       const child = await request("/api/admin/categories", "POST", { name: "Integration child", parentId: categoryIds[0] }); categoryIds.push(child.result.data.id);
