@@ -9,6 +9,7 @@ import { EmptyState, ErrorState } from "./States";
 import { getCatalogConfig } from "@/lib/catalog/catalog.service";
 import { CollectionIntro } from "@/components/templates/collection/CollectionIntro";
 import { CollectionProductGrid } from "@/components/templates/collection/CollectionProductGrid";
+import { HomeHero } from "./HomeHero";
 type Search = Record<string, string | string[] | undefined>;
 export async function CatalogListing({ search, categorySlug }: { search: Search; categorySlug?: string }) {
   const clean = Object.fromEntries(Object.entries(search).filter(([, value]) => value !== "" && value !== undefined));
@@ -24,12 +25,17 @@ export async function CatalogListing({ search, categorySlug }: { search: Search;
     for (const [key, value] of Object.entries(clean)) if (typeof value === "string" && key !== "page") params.set(key, value);
     params.set("page", String(page)); return path + "?" + params;
   };
+  const isHome = config.activeTemplate === "GRID" && !categorySlug && !parsed.data.q && !parsed.data.category && !parsed.data.available && parsed.data.page === 1;
+  const categoryNavigation = <nav className="category-nav" aria-label="Browse categories"><Link className={!categorySlug ? "active" : ""} href={isHome ? "#collection-results" : "/"}>All pieces</Link>{categories.map((c) => <Link key={c.id} className={c.slug === categorySlug ? "active" : ""} href={`/categories/${c.slug}`}>{c.parentId ? "↳ " : ""}{c.name}</Link>)}</nav>;
   return <>
+    {isHome ? <HomeHero>{categoryNavigation}</HomeHero> : <>
     {config.activeTemplate === "COLLECTION" ? <CollectionIntro products={result.data} categories={categories} title={currentCategory?.name} showcase={!categorySlug && !parsed.data.q && !parsed.data.category && !parsed.data.available && parsed.data.page === 1} /> : <section className="catalog-hero">
       <div><p className="eyebrow">THE EVERYDAY EDIT · VOL. 01</p><h1>{currentCategory ? currentCategory.name : <>Good things.<br /><em>Every day.</em></>}</h1></div>
       <p className="hero-copy">{currentCategory ? "Explore considered pieces from this collection. Find something that fits your everyday." : "A considered collection of useful, beautiful things. Find your favourites, ask a question, make them yours."}</p>
     </section>}
-    <nav className="category-nav" aria-label="Browse categories"><Link className={!categorySlug ? "active" : ""} href="/">All pieces</Link>{categories.map((c) => <Link key={c.id} className={c.slug === categorySlug ? "active" : ""} href={`/categories/${c.slug}`}>{c.parentId ? "↳ " : ""}{c.name}</Link>)}</nav>
+    {categoryNavigation}
+    </>}
+    <div className={isHome ? "shell home-products" : undefined}>
     <CatalogFilters key={JSON.stringify(parsed.data)} categories={categories} query={parsed.data} action={path} />
     <section id="collection-results" aria-label="Product collection">
       <div className="collection-title"><h2>{parsed.data.q ? `Results for “${parsed.data.q}”` : "Discover the collection"}</h2><span>{result.pagination.total} pieces</span></div>
@@ -40,5 +46,6 @@ export async function CatalogListing({ search, categorySlug }: { search: Search;
         {parsed.data.page < result.pagination.totalPages && <Link className="button button-secondary" href={pageLink(parsed.data.page + 1)}>Next →</Link>}
       </nav>}
     </section>
+    </div>
   </>;
 }
