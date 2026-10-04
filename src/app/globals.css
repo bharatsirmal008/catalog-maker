@@ -6,20 +6,20 @@
 .showcase-masthead { display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; gap: 20px; padding: 28px 0; border-bottom: 1px solid #ffffff40; }
 .showcase-masthead .eyebrow { color: #d5e3e7; font-size: 12px; }
 .showcase-masthead > a:last-child { justify-self: end; font-size: 14px; padding: 12px 0; }
-.showcase-brand { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; min-width: 0; text-align: center; font: 38px Georgia, serif; overflow-wrap: anywhere; }
+.showcase-brand { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; min-width: 0; text-align: center; font: 38px var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; overflow-wrap: anywhere; }
 .showcase-nav { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; font-size: 14px; }
 .showcase-nav a { padding: 17px 0; min-height: 48px; }
 .showcase-hero { display: grid; grid-template-columns: .8fr 1.2fr; gap: 50px; padding: 55px 0; align-items: center; }
-.showcase-copy h1 { font: clamp(48px, 5.5vw, 84px)/1.03 Georgia, serif; letter-spacing: -2px; margin: 24px 0; }
+.showcase-copy h1 { font: clamp(48px, 5.5vw, 84px)/1.03 var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; letter-spacing: -2px; margin: 24px 0; }
 .showcase-copy h1 em { font-weight: 400; }
 .showcase-copy > p:not(.eyebrow) { font-size: 16px; line-height: 1.8; max-width: 340px; margin-bottom: 28px; }
 .showcase-feature-image { position: relative; aspect-ratio: 1.2; background: #e2e9e9; }
 .showcase-caption { display: flex; justify-content: space-between; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
 .visual-collections { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; padding: 25px 0 48px; }
 .visual-collection-image { position: relative; aspect-ratio: 1.8; background: #e7ecec; }
-.visual-collection > span { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; font: 23px Georgia, serif; }
+.visual-collection > span { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; font: 23px var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; }
 .collection-heading { padding: 50px 0 35px; }
-.collection-heading h1 { font: clamp(40px, 6vw, 76px) Georgia, serif; margin: 20px 0; }
+.collection-heading h1 { font: clamp(40px, 6vw, 76px) var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; margin: 20px 0; }
 .collection-heading a { text-decoration: underline; }
 .template-collection .category-nav a { border-radius: 0; border: 0; border-bottom: 1px solid var(--line); }
 .template-collection .category-nav .active { background: var(--accent); }
@@ -27,7 +27,7 @@
 .template-collection .collection-title h2 { font-size: 36px; }
 .editorial-group { border-top: 1px solid var(--line); padding: 28px 0 48px; }
 .editorial-group-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 24px; }
-.editorial-group-heading h3 { font: 28px Georgia, serif; }
+.editorial-group-heading h3 { font: 28px var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; }
 .editorial-group-heading > span { font-size: 14px; color: var(--muted); }
 .editorial-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 40px; }
 .editorial-card { min-width: 0; }
@@ -36,7 +36,7 @@
 .editorial-image:hover img { transform: scale(1.025); }
 .editorial-card-copy { display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding-top: 22px; }
 .editorial-number { font-size: 14px; color: var(--muted); padding-top: 8px; }
-.editorial-card-copy h4 { font: 27px/1.3 Georgia, serif; overflow-wrap: anywhere; margin-bottom: 14px; }
+.editorial-card-copy h4 { font: 27px/1.3 var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; overflow-wrap: anywhere; margin-bottom: 14px; }
 .editorial-meta { display: flex; gap: 20px; flex-wrap: wrap; }
 .collection-detail-label { display: flex; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); padding: 10px 0 25px; font-size: 14px; letter-spacing: 1px; }
 .template-collection .collection-detail .product-detail { grid-template-columns: minmax(0,1.6fr) minmax(0,1fr); gap: 50px; padding-top: 35px; }
@@ -88,17 +88,17 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: "Cascadia Code", Consolas, monospace;
+  --font-sans: var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif;
+  --font-mono: var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif;
 }
 
-/* Catalog design tokens and shared components. Local fonts keep builds offline-safe. */
+/* Catalog design tokens and shared components. */
 :root { --background: #faf8f4; --foreground: #272c28; --accent: #a34728; --muted: #6b706a; --line: #dddcd4; }
 * { box-sizing: border-box; }
 a, button, input, select { -webkit-tap-highlight-color: transparent; }
@@ -120,7 +120,7 @@ a { text-underline-offset: 4px; }
 .catalog-hero { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; padding: 64px 0 48px; }
 .eyebrow { font-size: 10px; letter-spacing: 1.7px; font-weight: 600; text-transform: uppercase; color: var(--muted); }
 .catalog-hero .eyebrow { color: var(--accent); margin-bottom: 22px; }
-.catalog-hero h1 { font: 72px/1.04 Georgia, "Times New Roman", serif; letter-spacing: -2.8px; }
+.catalog-hero h1 { font: 72px/1.04 var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; letter-spacing: -2.8px; }
 .catalog-hero h1 em { font-weight: 400; color: #697b64; }
 .hero-copy { max-width: 325px; color: #60695f; font-size: 15px; line-height: 1.9; padding-bottom: 9px; }
 .category-nav { display: flex; gap: 10px; padding-bottom: 25px; overflow-x: auto; scrollbar-width: thin; }
@@ -138,7 +138,7 @@ a { text-underline-offset: 4px; }
 .button-secondary { background: transparent; border-color: #b9bcb3; color: var(--foreground); }
 .clear-link { font-size: 12px; padding: 12px 0; text-decoration: underline; }
 .collection-title { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 35px 0 22px; }
-.collection-title h2 { font: 26px Georgia, serif; }
+.collection-title h2 { font: 26px var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; }
 .collection-title > span { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 35px 22px; }
 .product-card { min-width: 0; }
@@ -156,13 +156,13 @@ a { text-underline-offset: 4px; }
 .stock-ready { color: #326041; }
 .stock-unavailable { color: #85513b; }
 .image-fallback { width: 100%; height: 100%; min-height: 80px; display: grid; place-content: center; text-align: center; gap: 8px; color: #736c61; font-size: 11px; background: #eee9e0; }
-.image-fallback > span:first-child { font: 48px Georgia, serif; }
+.image-fallback > span:first-child { font: 48px var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; }
 .pagination { display: flex; justify-content: center; align-items: center; gap: 20px; margin: 50px 0; font-size: 12px; }
 .catalog-footer { margin-top: 72px; border-top: 1px solid var(--line); padding-block: 30px; display: flex; gap: 20px; justify-content: space-between; color: #6b706a; font-size: 12px; }
 .catalog-footer span span { padding-inline: 12px; }
 .empty-state { padding: 75px 20px; text-align: center; }
 .empty-state > span { font-size: 40px; color: var(--accent); }
-.empty-state h1, .empty-state h2 { font: 32px Georgia, serif; margin: 15px 0; }
+.empty-state h1, .empty-state h2 { font: 32px var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; margin: 15px 0; }
 .empty-state p { color: var(--muted); margin: 14px auto 25px; max-width: 500px; line-height: 1.8; }
 .skeleton-card > div { aspect-ratio: 1; background: #e6e3da; border-radius: 5px; }
 .skeleton-card span { display: block; height: 14px; background: #e6e3da; margin-top: 15px; width: 75%; }
@@ -175,7 +175,7 @@ a { text-underline-offset: 4px; }
 .product-detail { display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: start; }
 .detail-image { position: relative; aspect-ratio: 1; border-radius: 6px; overflow: hidden; background: #eee9e0; }
 .detail-copy { padding-top: 26px; }
-.detail-copy h1 { font: 45px/1.14 Georgia, serif; margin-block: 17px 25px; overflow-wrap: anywhere; }
+.detail-copy h1 { font: 45px/1.14 var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; margin-block: 17px 25px; overflow-wrap: anywhere; }
 .detail-price { display: flex; align-items: center; gap: 25px; }
 .detail-price .price { font-size: 25px; font-weight: 400; }
 .detail-price .stock { font-size: 12px; }
@@ -243,13 +243,13 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 .lightbox-toolbar { display: flex; justify-content: space-between; align-items: center; }
 .lightbox-image { position: relative; height: min(65dvh, 700px); margin-top: 16px; touch-action: pan-y; }
 .selection-heading { padding: 48px 0 32px; }
-.selection-heading h1 { font-family: Georgia, serif; font-size: clamp(36px, 6vw, 64px); letter-spacing: -1.5px; margin: 12px 0 20px; }
+.selection-heading h1 { font-family: var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; font-size: clamp(36px, 6vw, 64px); letter-spacing: -1.5px; margin: 12px 0 20px; }
 .selection-heading p, .enquiry-summary > p { max-width: 620px; color: var(--muted); line-height: 1.8; font-size: 14px; }
 .selection-heading .button { margin-top: 20px; }
 .selection-warning, .missing-products { padding: 20px; border: 1px solid #aa5638; background: #fff5eb; margin-block: 20px; overflow-wrap: anywhere; }
 .missing-products > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 12px; }
 .enquiry-summary { border-top: 1px solid var(--line); margin-top: 45px; padding-top: 28px; }
-.enquiry-summary h2, .missing-products h2 { font: 28px Georgia, serif; margin-bottom: 15px; }
+.enquiry-summary h2, .missing-products h2 { font: 28px var(--font-roboto-condensed), "Arial Narrow", Arial, sans-serif; margin-bottom: 15px; }
 .enquiry-summary > .button { margin-top: 20px; }
 .message-preview { margin-top: 25px; padding: 24px; border: 1px solid var(--line); border-radius: 8px; }
 .message-preview pre { white-space: pre-wrap; overflow-wrap: anywhere; font-family: inherit; font-size: 14px; line-height: 1.9; margin: 18px 0; }
