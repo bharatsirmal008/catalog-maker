@@ -7,7 +7,9 @@ import { makeWhatsAppEnquiry } from "../../src/lib/catalog/whatsapp";
 import { writeFile, mkdir } from "node:fs/promises";
 
 const base = process.env.TEST_BASE_URL ?? "http://localhost:3000";
-if (process.env.ALLOW_INTEGRATION_TESTS !== "true" || !["localhost", "127.0.0.1"].includes(new URL(base).hostname)) throw new Error("Local test opt-in required");
+const isLocal = ["localhost", "127.0.0.1"].includes(new URL(base).hostname);
+const hostedOptIn = process.env.ALLOW_HOSTED_DEMO_TESTS === "true" && base === process.env.APP_URL && new URL(base).protocol === "https:";
+if (process.env.ALLOW_INTEGRATION_TESTS !== "true" || (!isLocal && !hostedOptIn)) throw new Error("Test opt-in and matching demo origin required");
 const liveUpload = process.env.VERIFY_CLOUDINARY_UPLOAD === "true";
 const liveImports = process.env.VERIFY_LIVE_IMPORTS === "true";
 let cookie = "", adminId = "", productId = "", uploadedPublicId = "";
@@ -25,7 +27,14 @@ async function main() {
     const login = await request("/api/admin/login", "POST", { email, password }); assert.equal(login.response.status, 200);
     cookie = login.response.headers.get("set-cookie")!.split(";")[0];
     assert.match(login.response.headers.get("set-cookie")!, /HttpOnly/i); pass("Admin login and protected session");
+    if (!isLocal) {
+      assert.match(login.response.headers.get("set-cookie")!, /; Secure(?:;|$)/i);
+      assert.match(login.response.headers.get("set-cookie")!, /SameSite=Strict/i);
+      pass("Hosted session cookie is Secure, HttpOnly and SameSite=Strict");
+    }
     const config = await request("/api/catalog/config"); original = config.result.data;
+    const wrongOrigin = await fetch(base + "/api/admin/config", { method: "PATCH", headers: { Origin: "https://untrusted.example", Cookie: cookie, "Content-Type": "application/json" }, body: JSON.stringify(original), signal: AbortSignal.timeout(30000) });
+    assert.equal(wrongOrigin.status, 403); pass("Authenticated mutations reject an untrusted Origin");
     const unauthorized = await fetch(base + "/api/admin/images", { method: "POST" }); assert.equal(unauthorized.status, 401);
     pass("Image upload rejects unauthenticated requests");
     let imageUrl: string | undefined;
@@ -93,7 +102,7 @@ async function main() {
       pass("Temporary product, test login and cloud image cleaned up");
     }
     await mkdir(".artifacts", { recursive: true });
-    await writeFile(".artifacts/deployment-smoke.json", JSON.stringify({ date: new Date().toISOString(), checks, browserTesting: "NOT_RUN: browser connection unavailable" }, null, 2));
+    await writeFile(isLocal ? ".artifacts/deployment-smoke.json" : ".artifacts/hosted-deployment-smoke.json", JSON.stringify({ date: new Date().toISOString(), base, checks, browserTesting: "NOT_RUN: browser connection unavailable" }, null, 2));
   }
 }
 main().catch((error) => { console.error(error instanceof Error ? error.message : "Deployment smoke test failed"); process.exitCode = 1; }).finally(() => prisma.$disconnect());

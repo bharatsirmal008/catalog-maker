@@ -2,7 +2,31 @@
 
 Target: a Render Free Node web service with a separate Neon Free PostgreSQL
 database and Cloudinary image storage. This is a demo configuration, subject to
-provider limits. No online resource has been created merely by adding these files.
+provider limits. Adding these files alone does not create online resources.
+
+On 2026-10-04 the user-selected Neon project `snowy-term-29377345` was connected.
+All three Prisma migrations passed first on `deployment-verification`, then on
+the verified-empty production branch `br-falling-firefly-b32g9vhs`. The verification
+branch was retained for review; it was not deleted automatically. Local `.env`
+was preserved. `.env.hosted.local` and `.env.neon-test.local` are Git-ignored secrets.
+
+The Free Render service `srv-db10icmgekts73bkkh00` was created in the confirmed
+My Workspace, Singapore region, from GitHub's `master` branch. URL:
+https://catalog-maker-demo.onrender.com. Service creation is not proof of health.
+The initial build failed because production npm install omitted Tailwind's
+build dependencies; `NPM_CONFIG_INCLUDE=dev` was added before retrying. Keep this
+setting in the hosting environment when using the documented build command.
+
+The retry deployed successfully (`live`) at 2026-10-04 08:11 UTC. Public homepage,
+admin login and `/api/health` returned HTTP 200; health reported database connected.
+Hosted smoke tests verified temporary administrator login, unauthorized upload
+rejection, real Cloudinary upload, saved URL, optimized delivery, descriptions
+and both template routes. Temporary test records/image were removed, with zero
+admins/products/sessions remaining afterwards. Existing local catalog/admin copy
+requires the user's pending choice; the hosted catalog is currently empty and
+has no permanent admin or WhatsApp number. Visual/mobile and live hosted store
+imports remain pending. The first local-to-Neon smoke attempt timed out connecting;
+the retry succeeded after the deployed health check confirmed an awake database.
 
 ## Verified local status — 2026-10-04
 
@@ -15,8 +39,7 @@ Temporary test product, login and Cloudinary asset were removed; real data was k
 WooCommerce connection registration returned HTTP 502; Local WordPress and ngrok
 were not running during the check. This does not invalidate existing imported
 products. Desktop/mobile visual checks remain unverified because the browser
-connection was unavailable. No hosted database or web service has been created;
-Neon/Render account connections and a Git repository remote are still required.
+connection was unavailable. These local checks are not hosted acceptance results.
 
 ## 1. Cloudinary
 
