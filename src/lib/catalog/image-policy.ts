@@ -1,5 +1,7 @@
+import { cloudinaryImageUrl } from "./cloudinary-policy";
 export function allowedCatalogImage(src: string | null | undefined) {
   if (!src) return false;
+  if (cloudinaryImageUrl(src)) return true;
   if (src.startsWith("/demo/") && !src.includes("..")) return true;
   try {
     const url = new URL(src);

@@ -27,4 +27,7 @@ npm run dev
 See the `docs/` directory for detailed architecture, API, integration, and security documentation.
 
 ## Project Status
-Complete (Days 1-14). Ready for submission.
+Local implementation is available; live/deployment acceptance remains in progress.
+See [deployment setup](docs/deployment.md) and [Day 10 verification](docs/day-10.md)
+for measured checks and outstanding work. Final reports are historical and do not
+replace current verification.

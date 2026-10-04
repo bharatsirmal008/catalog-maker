@@ -14,7 +14,7 @@ function createPrismaClient() {
     throw new Error("DATABASE_URL is not configured");
   }
 
-  const adapter = new PrismaPg({ connectionString });
+  const adapter = new PrismaPg({ connectionString, max: 5, connectionTimeoutMillis: 5000 });
   return new PrismaClient({ adapter });
 }
 

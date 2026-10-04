@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { cloudinaryImageUrl } from "@/lib/catalog/cloudinary-policy";
 
 export const uuid = z.uuid();
 export const slug = z.string().min(1).max(100).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers and hyphens");
@@ -6,9 +7,10 @@ export const money = z.string().regex(/^(?:0|[1-9]\d{0,9})(?:\.\d{1,2})?$/, "Use
 export const currency = z.enum(["INR", "USD", "EUR", "GBP"]);
 export const availability = z.enum(["IN_STOCK", "OUT_OF_STOCK", "BACKORDER", "UNAVAILABLE"]);
 export const imageUrl = z.string().max(2048).refine((value) => {
+  if (cloudinaryImageUrl(value)) return true;
   if (/^\/demo\/[a-z0-9-]+\.svg$/.test(value)) return true;
   try { const url = new URL(value); return url.protocol === "https:" && url.hostname === "images.unsplash.com" && !url.username && !url.password; } catch { return false; }
-}, "Use a local /demo/name.svg asset or an HTTPS images.unsplash.com URL");
+}, "Use an uploaded Cloudinary image, local demo asset or HTTPS images.unsplash.com URL");
 export const imageSchema = z.object({ imageUrl, altText: z.string().max(200).nullable().optional() }).strict();
 export const createProduct = z.object({
   name: z.string().trim().min(1).max(160), slug: slug.optional(),
