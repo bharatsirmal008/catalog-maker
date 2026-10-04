@@ -6,7 +6,7 @@
 .showcase-masthead { display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; gap: 20px; padding: 28px 0; border-bottom: 1px solid #ffffff40; }
 .showcase-masthead .eyebrow { color: #d5e3e7; font-size: 12px; }
 .showcase-masthead > a:last-child { justify-self: end; font-size: 14px; padding: 12px 0; }
-.showcase-brand { text-align: center; font: 38px Georgia, serif; overflow-wrap: anywhere; }
+.showcase-brand { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; min-width: 0; text-align: center; font: 38px Georgia, serif; overflow-wrap: anywhere; }
 .showcase-nav { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; font-size: 14px; }
 .showcase-nav a { padding: 17px 0; min-height: 48px; }
 .showcase-hero { display: grid; grid-template-columns: .8fr 1.2fr; gap: 50px; padding: 55px 0; align-items: center; }
@@ -59,7 +59,7 @@
 @media(max-width:767px) {
   .showcase-masthead { grid-template-columns: 1fr auto; }
   .showcase-masthead .eyebrow { grid-column: 1 / -1; }
-  .showcase-brand { text-align: left; font-size: 30px; }
+  .showcase-brand { justify-content: flex-start; text-align: left; font-size: 30px; }
   .showcase-nav { justify-content: space-between; gap: 16px; }
   .showcase-hero { grid-template-columns: 1fr; gap: 25px; padding: 35px 0; }
   .showcase-copy h1 { font-size: 56px; }
@@ -109,8 +109,9 @@ a { text-underline-offset: 4px; }
 .shell { width: min(1320px, calc(100% - 80px)); margin-inline: auto; }
 .catalog-header { border-bottom: 1px solid var(--line); background: var(--background); }
 .header-inner { min-height: 98px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-.brand { display: flex; gap: 14px; align-items: center; font-weight: 600; font-size: 19px; letter-spacing: -.7px; }
-.brand-mark { display: grid; place-items: center; border-radius: 50%; width: 43px; height: 43px; background: #303c32; color: #fff; font: italic 21px Georgia, serif; }
+.brand { display: flex; gap: 14px; align-items: center; min-width: 0; max-width: 100%; font-weight: 600; font-size: 19px; letter-spacing: -.7px; }
+.brand-logo { display: block; width: 112px; height: auto; flex-shrink: 0; border-radius: 10px; background: #fff; }
+.brand > span, .showcase-brand > span { min-width: 0; overflow-wrap: anywhere; }
 .main-nav { display: flex; gap: 28px; align-items: center; font-size: 13px; }
 .main-nav a { padding-block: 14px; }
 .main-nav a:hover { color: var(--accent); }
@@ -207,7 +208,7 @@ a { text-underline-offset: 4px; }
   .shell { width: calc(100% - 32px); }
   .header-inner { min-height: 80px; gap: 12px; flex-wrap: wrap; padding-block: 14px; }
   .brand { font-size: 16px; gap: 9px; }
-  .brand-mark { width: 35px; height: 35px; font-size: 18px; }
+  .brand-logo { width: 88px; }
   .main-nav { font-size: 11px; }
   .catalog-hero h1 { font-size: 53px; letter-spacing: -2px; }
   .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 12px; }
