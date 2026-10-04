@@ -6,7 +6,7 @@ const robotoCondensed = Roboto_Condensed({ subsets: ["latin"], style: ["normal",
 
 export const metadata: Metadata = {
   title: "CM",
-  icons: { icon: [{ url: "/cm-favicon.png", type: "image/png", sizes: "256x256" }], apple: [{ url: "/cm-apple-icon.png", sizes: "180x180", type: "image/png" }] },
+  icons: { icon: [{ url: "/cm-favicon.svg", type: "image/svg+xml", sizes: "any" }, { url: "/cm-favicon.png?v=round", type: "image/png", sizes: "256x256" }], apple: [{ url: "/cm-apple-icon.png?v=round", sizes: "180x180", type: "image/png" }] },
   description: "A fast, reusable product catalog platform.",
 };
 
