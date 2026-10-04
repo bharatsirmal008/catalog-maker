@@ -11,7 +11,7 @@ import { listProducts } from "@/lib/catalog/product.service";
 import { productQuery } from "@/lib/validations/catalog";
 
 export const metadata = {
-  title: "Admin access | Catalog Maker",
+  title: "Admin access | CM",
 };
 
 export default async function AdminPage() {

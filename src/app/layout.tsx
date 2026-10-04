@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Catalog Maker",
+  title: "CM",
+  icons: { icon: [{ url: "/cm-logo.svg", type: "image/svg+xml", sizes: "any" }] },
   description: "A fast, reusable product catalog platform.",
 };
 

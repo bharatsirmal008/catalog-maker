@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cm-title" viewBox="0 0 320 120" width="320" height="120" preserveAspectRatio="xMidYMid meet">
+  <title id="cm-title">CM</title>
+  <g fill="none" stroke="#362AFF" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M139 28C116 13 91 10 66 19C38 29 20 49 20 68C20 95 59 109 94 96L130 82" stroke-width="27"/>
+    <path d="M158 98L170 29L211 65L255 29L246 98L273 78" stroke-width="23"/>
+  </g>
+  <circle cx="298" cy="98" r="13" fill="#362AFF"/>
+</svg>
