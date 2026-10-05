@@ -9,7 +9,9 @@ export function mapShopifyProduct(product: ShopifyProduct): SourceProduct {
     availability: !variant.availableForSale ? "OUT_OF_STOCK" as const : variant.inventoryItem.tracked && variant.inventoryQuantity !== null && variant.inventoryQuantity <= 0 && variant.inventoryPolicy === "CONTINUE" ? "BACKORDER" as const : "IN_STOCK" as const,
     attributes: Object.fromEntries(variant.selectedOptions.map((option) => [option.name, option.value])),
   }));
-  const visible = product.status === "ACTIVE" && product.publishedAt !== null && product.onlineStoreUrl !== null;
+  // Password-protected development stores can omit the URL even when published.
+  // Publication state, not URL availability, determines catalog visibility.
+  const visible = product.status === "ACTIVE" && product.publishedAt !== null;
   const result = sourceProductSchema.safeParse({ externalId: product.id, name: product.title, description: product.description, price: variants.map((v) => v.price).sort(compareMoney)[0], currency: product.currency, sku: variants[0].sku,
     sourceUrl: product.onlineStoreUrl, sourceVisible: visible, availability: !visible ? "UNAVAILABLE" : variants.some((v) => v.availability === "IN_STOCK") ? "IN_STOCK" : variants.some((v) => v.availability === "BACKORDER") ? "BACKORDER" : "OUT_OF_STOCK",
     updatedAt: product.updatedAt, variants, images: product.images.map((image) => ({ externalId: image.id, url: image.url, alt: image.altText })),
